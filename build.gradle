@@ -18,6 +18,17 @@ ext {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.flywaydb:flyway-core'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.0'
+    implementation 'org.jetbrains:annotations:20.1.0'
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql:42.2.18'
+    annotationProcessor 'org.projectlombok:lombok'
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
