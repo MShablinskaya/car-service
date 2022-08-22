@@ -1,6 +1,10 @@
 spring:
   application:
     name: car-service
+  kafka:
+    topic:
+      name: car_topic
+    bootstrap-address: ${eureka.instance.hostname}:9092
 
   datasource:
     url: jdbc:postgresql://${DATASOURCE_HOST:localhost}:5444/auto-sharing
