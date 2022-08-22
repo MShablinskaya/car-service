@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres_autosharing
+    restart: always
+    environment:
+      POSTGRES_DB: "auto-sharing"
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "password"
+    ports:
+      - 5444:5432
