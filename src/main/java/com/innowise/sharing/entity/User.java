@@ -15,6 +15,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
@@ -24,7 +25,8 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Accessors(chain = true)
-public class Users {
+@Table(name = "users")
+public class User {
     @Column(name = "id", nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -54,13 +56,13 @@ public class Users {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Users users = (Users) o;
-        return Objects.equals(id, users.id)
-                && Objects.equals(firstName, users.firstName)
-                && Objects.equals(lastName, users.lastName)
-                && roleId == users.roleId
-                && Objects.equals(email, users.email)
-                && Objects.equals(password, users.password);
+        User user = (User) o;
+        return Objects.equals(id, user.id)
+                && Objects.equals(firstName, user.firstName)
+                && Objects.equals(lastName, user.lastName)
+                && roleId == user.roleId
+                && Objects.equals(email, user.email)
+                && Objects.equals(password, user.password);
     }
 
     @Override

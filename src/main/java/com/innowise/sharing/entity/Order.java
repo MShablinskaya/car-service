@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -24,7 +25,8 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Accessors(chain = true)
-public class Orders {
+@Table(name = "orders")
+public class Order {
 
     @Column(name = "id", nullable = false)
     @Id
@@ -34,7 +36,7 @@ public class Orders {
     @JoinColumn(name = "customer_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
-    private Users customerId;
+    private User customerId;
 
     @JoinColumn(name = "car_id")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -54,13 +56,13 @@ public class Orders {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Orders orders = (Orders) o;
-        return Objects.equals(id, orders.id)
-                && Objects.equals(customerId, orders.customerId)
-                && Objects.equals(car_id, orders.car_id)
-                && state == orders.state
-                && Objects.equals(bookingDate, orders.bookingDate)
-                && Objects.equals(returnDate, orders.returnDate);
+        Order order = (Order) o;
+        return Objects.equals(id, order.id)
+                && Objects.equals(customerId, order.customerId)
+                && Objects.equals(car_id, order.car_id)
+                && state == order.state
+                && Objects.equals(bookingDate, order.bookingDate)
+                && Objects.equals(returnDate, order.returnDate);
     }
 
     @Override

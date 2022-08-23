@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -23,6 +24,7 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Accessors(chain = true)
+@Table(name = "cars")
 public class Car {
 
     @Column(name = "id", nullable = false)
@@ -48,7 +50,7 @@ public class Car {
     @JoinColumn(name = "owner_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
-    private Users ownerId;
+    private User ownerId;
 
     @Column(name = "availability")
     private Boolean availability;

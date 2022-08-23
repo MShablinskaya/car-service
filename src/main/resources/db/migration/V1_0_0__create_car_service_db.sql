@@ -1,4 +1,4 @@
-CREATE TABLE document
+CREATE TABLE documents
 (
     id              serial primary key,
     license_number  varchar(256),
@@ -14,10 +14,10 @@ CREATE TABLE users
     password   varchar(256),
     license_id integer,
     role       varchar(256),
-    FOREIGN KEY (license_id) REFERENCES document (id)
+    FOREIGN KEY (license_id) REFERENCES documents (id)
 );
 
-CREATE TABLE car
+CREATE TABLE cars
 (
     id                  serial primary key,
     brand               varchar(256),
@@ -40,5 +40,5 @@ CREATE TABLE orders
     booking_date timestamp,
     return_date  timestamp,
     FOREIGN KEY (customer_id) REFERENCES users (id),
-    FOREIGN KEY (car_id) REFERENCES car (id)
+    FOREIGN KEY (car_id) REFERENCES cars (id)
 );
