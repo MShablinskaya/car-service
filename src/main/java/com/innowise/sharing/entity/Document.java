@@ -33,7 +33,7 @@ public class Document {
     private Long id;
 
     @Column(name = "license_number")
-    private Long licenseNumber;
+    private String licenseNumber;
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)

@@ -24,7 +24,7 @@ CREATE TABLE cars
     model               varchar(256),
     color               varchar(256),
     release_year        integer,
-    registration_number integer,
+    registration_number varchar(256),
     owner_id            integer,
     availability        boolean,
     FOREIGN KEY (owner_id) REFERENCES users (id)

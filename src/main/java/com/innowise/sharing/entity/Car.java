@@ -45,7 +45,7 @@ public class Car {
     private Timestamp releaseYear;
 
     @Column(name = "registration_number")
-    private Long registrationNumber;
+    private String registrationNumber;
 
     @JoinColumn(name = "owner_id")
     @ManyToOne(fetch = FetchType.LAZY)
