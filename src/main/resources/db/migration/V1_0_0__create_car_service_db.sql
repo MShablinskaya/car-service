@@ -1,4 +1,4 @@
-CREATE TABLE documents
+CREATE TABLE document
 (
     id              serial primary key,
     license_number  varchar(256),
@@ -14,7 +14,7 @@ CREATE TABLE users
     password   varchar(256),
     license_id integer,
     role       varchar(256),
-    FOREIGN KEY (license_id) REFERENCES documents (id)
+    FOREIGN KEY (license_id) REFERENCES document (id)
 );
 
 CREATE TABLE car

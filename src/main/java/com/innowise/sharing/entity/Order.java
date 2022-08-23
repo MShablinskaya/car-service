@@ -24,7 +24,7 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Accessors(chain = true)
-public class Order {
+public class Orders {
 
     @Column(name = "id", nullable = false)
     @Id
@@ -54,13 +54,13 @@ public class Order {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(id, order.id)
-                && Objects.equals(customerId, order.customerId)
-                && Objects.equals(car_id, order.car_id)
-                && state == order.state
-                && Objects.equals(bookingDate, order.bookingDate)
-                && Objects.equals(returnDate, order.returnDate);
+        Orders orders = (Orders) o;
+        return Objects.equals(id, orders.id)
+                && Objects.equals(customerId, orders.customerId)
+                && Objects.equals(car_id, orders.car_id)
+                && state == orders.state
+                && Objects.equals(bookingDate, orders.bookingDate)
+                && Objects.equals(returnDate, orders.returnDate);
     }
 
     @Override
