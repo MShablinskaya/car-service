@@ -41,7 +41,7 @@ public class Car {
     private String color;
 
     @Column(name = "release_year")
-    private Timestamp releaseYear;
+    private Integer releaseYear;
 
     @Column(name = "registration_number")
     private String registrationNumber;
