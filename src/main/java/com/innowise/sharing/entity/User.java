@@ -2,9 +2,8 @@ package com.innowise.sharing.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.innowise.sharing.enums.Role;
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
@@ -12,17 +11,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
-import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-@ToString
+@Data
 @RequiredArgsConstructor
 @Accessors(chain = true)
 @Table(name = "users")
@@ -38,10 +37,6 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "role_id")
-    @Enumerated(EnumType.STRING)
-    private Role roleId;
-
     @Column(name = "email")
     @Pattern(regexp = ".+@.+\\.[a-z]", message = "Invalid Email address!")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -52,21 +47,12 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id)
-                && Objects.equals(firstName, user.firstName)
-                && Objects.equals(lastName, user.lastName)
-                && roleId == user.roleId
-                && Objects.equals(email, user.email)
-                && Objects.equals(password, user.password);
-    }
+    @JoinColumn(name = "license_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private Document licenceId;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName, roleId, email, password);
-    }
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

@@ -1,5 +1,6 @@
 package com.innowise.sharing.entity;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -19,9 +20,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-@ToString
+@Data
 @RequiredArgsConstructor
 @Accessors(chain = true)
 @Table(name = "cars")
@@ -54,24 +53,4 @@ public class Car {
 
     @Column(name = "availability")
     private Boolean availability;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Car car = (Car) o;
-        return Objects.equals(id, car.id)
-                && Objects.equals(brand, car.brand)
-                && Objects.equals(model, car.model)
-                && Objects.equals(color, car.color)
-                && Objects.equals(releaseYear, car.releaseYear)
-                && Objects.equals(registrationNumber, car.registrationNumber)
-                && Objects.equals(ownerId, car.ownerId)
-                && Objects.equals(availability, car.availability);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, brand, model, color, releaseYear, registrationNumber, ownerId, availability);
-    }
 }

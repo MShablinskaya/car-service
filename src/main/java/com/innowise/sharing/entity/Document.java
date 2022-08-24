@@ -1,6 +1,7 @@
 package com.innowise.sharing.entity;
 
 import com.innowise.sharing.enums.DocumentType;
+import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -19,9 +20,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-@ToString
+@Data
 @RequiredArgsConstructor
 @Accessors(chain = true)
 @Table(name = "documents")
@@ -41,20 +40,4 @@ public class Document {
 
     @Column(name = "expiration_date")
     private Timestamp expirationDate;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Document document = (Document) o;
-        return Objects.equals(id, document.id)
-                && Objects.equals(licenseNumber, document.licenseNumber)
-                && type == document.type
-                && Objects.equals(expirationDate, document.expirationDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, licenseNumber, type, expirationDate);
-    }
 }
