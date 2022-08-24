@@ -17,13 +17,13 @@ import static org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_
 
 @Configuration
 public class KafkaProducerConfig {
-    @Value(value = "${spring.kafka.bootstrap-address}")
-    private String bootstrapAddress;
+    @Value(value = "${spring.kafka.bootstrap-servers}")
+    private String bootstrapServers;
 
     @Bean
     public ProducerFactory<String, String> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
-        configProps.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        configProps.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         return new DefaultKafkaProducerFactory<>(configProps);
