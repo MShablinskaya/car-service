@@ -26,10 +26,9 @@ import java.util.Objects;
 @Accessors(chain = true)
 @Table(name = "orders")
 public class Order {
-
-    @Column(name = "id", nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
     @JoinColumn(name = "customer_id")
