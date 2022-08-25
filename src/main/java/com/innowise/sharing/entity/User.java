@@ -54,7 +54,7 @@ public class User {
     @JoinColumn(name = "license_id")
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
-    private Document licenceId;
+    private Document licence;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)

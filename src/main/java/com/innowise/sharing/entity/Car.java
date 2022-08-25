@@ -54,7 +54,7 @@ public class Car {
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     @ToString.Exclude
-    private User ownerId;
+    private User owner;
 
     @Column(name = "availability")
     private Boolean availability;

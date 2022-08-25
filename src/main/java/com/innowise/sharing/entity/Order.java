@@ -34,12 +34,12 @@ public class Order {
     @JoinColumn(name = "customer_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
-    private User customerId;
+    private User customer;
 
     @JoinColumn(name = "car_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
-    private Car car_id;
+    private Car car;
 
     @Column(name = "state")
     private State state;

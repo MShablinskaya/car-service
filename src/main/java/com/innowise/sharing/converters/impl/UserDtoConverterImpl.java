@@ -20,7 +20,7 @@ public class UserDtoConverterImpl implements UserDtoConverter {
                 .setFirstName(user.getFirstName())
                 .setLastName(user.getLastName())
                 .setEmail(user.getEmail())
-                .setLicenceId(documentService.getBySerialNumber(user.getLicenceId().getLicenseNumber()));
+                .setLicenceId(documentService.getBySerialNumber(user.getLicence().getLicenseNumber()));
     }
 
     @Override
@@ -29,6 +29,6 @@ public class UserDtoConverterImpl implements UserDtoConverter {
                 .setFirstName(dto.getFirstName())
                 .setLastName(dto.getLastName())
                 .setEmail(dto.getEmail())
-                .setLicenceId(converter.toEntity(documentService.getBySerialNumber(dto.getLicenceId().getLicenseNumber())));
+                .setLicence(converter.toEntity(documentService.getBySerialNumber(dto.getLicenceId().getLicenseNumber())));
     }
 }

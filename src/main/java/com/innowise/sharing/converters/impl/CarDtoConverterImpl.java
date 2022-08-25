@@ -21,7 +21,7 @@ public class CarDtoConverterImpl implements CarDtoConverter {
                 .setColor(car.getColor())
                 .setReleaseYear(car.getReleaseYear())
                 .setRegistrationNumber(car.getRegistrationNumber())
-                .setOwnerId(converter.toDto(userService.getUserByEmail(car.getOwnerId().getEmail())))
+                .setOwnerId(converter.toDto(userService.getUserByEmail(car.getOwner().getEmail())))
                 .setAvailability(car.getAvailability());
     }
 
@@ -33,7 +33,7 @@ public class CarDtoConverterImpl implements CarDtoConverter {
                 .setColor(dto.getColor())
                 .setReleaseYear(dto.getReleaseYear())
                 .setRegistrationNumber(dto.getRegistrationNumber())
-                .setOwnerId(userService.getUserByEmail(dto.getOwnerId().getEmail()))
+                .setOwner(userService.getUserByEmail(dto.getOwnerId().getEmail()))
                 .setAvailability(dto.getAvailability());
     }
 }
