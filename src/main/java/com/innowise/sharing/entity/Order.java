@@ -2,9 +2,7 @@ package com.innowise.sharing.entity;
 
 import com.innowise.sharing.enums.State;
 import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
@@ -18,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.sql.Timestamp;
-import java.util.Objects;
 
 @Entity
 @Data

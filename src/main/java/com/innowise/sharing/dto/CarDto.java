@@ -1,10 +1,11 @@
 package com.innowise.sharing.dto;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 @Data
-@Accessors(chain = true)
+@Builder
 public class CarDto {
     private String brand;
     private String model;

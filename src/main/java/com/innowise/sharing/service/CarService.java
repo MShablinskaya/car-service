@@ -9,7 +9,7 @@ public interface CarService {
     CarDto findCarById(Long id);
     List<CarDto> getAllCars();
     List<CarDto> getAvailableCars();
-    CarDto changeAvailabilityStatus(Long carI);
-    CarDto addNewCarToList(CarDto dto) throws CarException;
-    void deleteCar(Long carId) throws CarException;
+    CarDto changeAvailabilityStatus(Long carId);
+    CarDto addNewCarToList(CarDto dto);
+    void deleteCar(Long carId);
 }

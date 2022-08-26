@@ -3,7 +3,6 @@ package com.innowise.sharing.service.impl;
 import com.innowise.sharing.converters.CarDtoConverter;
 import com.innowise.sharing.dto.CarDto;
 import com.innowise.sharing.entity.Car;
-import com.innowise.sharing.exception.CarException;
 import com.innowise.sharing.repository.CarRepository;
 import com.innowise.sharing.service.CarService;
 import lombok.RequiredArgsConstructor;
@@ -42,35 +41,23 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarDto changeAvailabilityStatus(Long carId) {
-        if (carId != null){
-            Car car = carRepository.getReferenceById(carId);
-            changeStatus(car);
-            return converter.toDto(car);
-        }else{
-            throw new NullPointerException("Car Id can't being null");
-        }
+        Car car = carRepository.getReferenceById(carId);
+        changeStatus(car);
+        return converter.toDto(car);
     }
 
     @Override
-    public CarDto addNewCarToList(CarDto dto) throws CarException {
-        if(dto != null){
-            Car car = carRepository.save(converter.toEntity(dto));
-            return converter.toDto(car);
-        }else{
-            throw new CarException("Ooops! Something went wrong. Check your input.");
-        }
+    public CarDto addNewCarToList(CarDto dto) {
+        Car car = carRepository.save(converter.toEntity(dto));
+        return converter.toDto(car);
     }
 
     @Override
-    public void deleteCar(Long carId) throws CarException {
-       if(carId != null){
-           carRepository.delete(carRepository.getReferenceById(carId));
-       }else{
-           throw new CarException("Car Id cant be null");
-       }
+    public void deleteCar(Long carId) {
+        carRepository.delete(carRepository.getReferenceById(carId));
     }
 
-    private void changeStatus(Car car){
+    private void changeStatus(Car car) {
         car.setAvailability(!car.getAvailability());
         carRepository.save(car);
     }
