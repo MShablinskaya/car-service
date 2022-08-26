@@ -13,6 +13,7 @@ repositories {
 
 ext {
     set('springCloudVersion', "2021.0.3")
+    mapstructVersion = "1.5.2.Final"
 }
 
 dependencies {
@@ -25,10 +26,16 @@ dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
     implementation 'javax.validation:validation-api:2.0.1.Final'
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    implementation "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql:42.2.18'
     annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'

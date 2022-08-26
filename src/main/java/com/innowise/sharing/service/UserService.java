@@ -1,7 +1,7 @@
 package com.innowise.sharing.service;
 
-import com.innowise.sharing.entity.User;
+import com.innowise.sharing.dto.UserDto;
 
 public interface UserService {
-    User getUserByEmail(String email);
+    UserDto getUserByEmail(String email);
 }

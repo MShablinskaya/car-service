@@ -2,7 +2,6 @@ package com.innowise.sharing.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 @Data
 @Builder
