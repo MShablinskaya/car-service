@@ -14,7 +14,7 @@ CREATE TABLE users
     password   varchar(256),
     license_id integer,
     role       varchar(256),
-    FOREIGN KEY (license_id) REFERENCES documents (id)
+    FOREIGN KEY (license_id) REFERENCES documents (id)  on update cascade on delete cascade
 );
 
 CREATE TABLE cars
@@ -27,7 +27,7 @@ CREATE TABLE cars
     registration_number varchar(256),
     owner_id            integer,
     availability        boolean,
-    FOREIGN KEY (owner_id) REFERENCES users (id)
+    FOREIGN KEY (owner_id) REFERENCES users (id) on update cascade on delete cascade
 );
 
 
@@ -39,6 +39,6 @@ CREATE TABLE orders
     state        varchar(256),
     booking_date timestamp,
     return_date  timestamp,
-    FOREIGN KEY (customer_id) REFERENCES users (id),
-    FOREIGN KEY (car_id) REFERENCES cars (id)
+    FOREIGN KEY (customer_id) REFERENCES users (id) on update cascade on delete cascade ,
+    FOREIGN KEY (car_id) REFERENCES cars (id) on update cascade on delete cascade
 );

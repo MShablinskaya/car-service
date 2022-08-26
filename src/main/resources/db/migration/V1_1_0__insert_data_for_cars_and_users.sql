@@ -14,3 +14,5 @@ INSERT INTO cars (brand, model, color, release_year, registration_number, owner_
 INSERT INTO cars (brand, model, color, release_year, registration_number, owner_id, availability)VALUES('Volvo', 'V40', 'cherry', '2017', '7285 AT-4', 2, true);
 INSERT INTO cars (brand, model, color, release_year, registration_number, owner_id, availability)VALUES('Chevrolet', 'Equinox', 'black', '2020', '7777 AB-7', 2, true);
 INSERT INTO cars (brand, model, color, release_year, registration_number, owner_id, availability)VALUES('Zhiguli', 'VAZ-2101', 'red', '1995', '1234 AB-3', 1, true);
+INSERT INTO cars (brand, model, color, release_year, registration_number, owner_id, availability)VALUES('Zhiguli', 'VAZ-2101', 'black', '1995', '1234 AB-3', 1, false);
+INSERT INTO cars (brand, model, color, release_year, registration_number, owner_id, availability)VALUES('Zhiguli', 'VAZ-2101', 'pink', '1995', '1234 AB-3', 1, false);

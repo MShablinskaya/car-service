@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -26,9 +27,9 @@ import javax.validation.constraints.Pattern;
 @Accessors(chain = true)
 @Table(name = "users")
 public class User {
-    @Column(name = "id", nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
     @Column(name = "first_name")
@@ -48,9 +49,9 @@ public class User {
     private String password;
 
     @JoinColumn(name = "license_id")
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
-    private Document licenceId;
+    private Document licence;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)

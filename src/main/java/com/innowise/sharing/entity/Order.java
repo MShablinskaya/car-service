@@ -2,9 +2,7 @@ package com.innowise.sharing.entity;
 
 import com.innowise.sharing.enums.State;
 import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
@@ -18,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.sql.Timestamp;
-import java.util.Objects;
 
 @Entity
 @Data
@@ -26,21 +23,20 @@ import java.util.Objects;
 @Accessors(chain = true)
 @Table(name = "orders")
 public class Order {
-
-    @Column(name = "id", nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
     @JoinColumn(name = "customer_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
-    private User customerId;
+    private User customer;
 
     @JoinColumn(name = "car_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
-    private Car car_id;
+    private Car car;
 
     @Column(name = "state")
     private State state;

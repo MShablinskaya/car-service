@@ -1,5 +1,6 @@
 package com.innowise.sharing.kafka;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,8 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 @Component
+@Slf4j
 public class MessageProducer {
-    private static final Logger LOGGER = LogManager.getLogger(MessageProducer.class);
     private final KafkaTemplate<String, String> kafkaTemplate;
     @Value(value = "${spring.kafka.topic.name}")
     private String topicName;
@@ -27,12 +28,12 @@ public class MessageProducer {
         future.addCallback(new ListenableFutureCallback<>() {
             @Override
             public void onSuccess(SendResult<String, String> result) {
-                LOGGER.info("Sent message=[{}]", data);
+                log.info("Sent message=[{}]", data);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                LOGGER.error("Unable to send message=[{}}] due to : {}", data, throwable.getMessage());
+                log.error("Unable to send message=[{}}] due to : {}", data, throwable.getMessage());
             }
         });
     }

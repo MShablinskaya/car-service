@@ -1,18 +1,20 @@
 package com.innowise.sharing.dto;
 
-import com.innowise.sharing.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.experimental.Accessors;
-
-import java.sql.Timestamp;
+import lombok.NoArgsConstructor;
 
 @Data
-@Accessors(chain = true)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CarDto {
     private String brand;
     private String model;
-    private Timestamp releaseYear;
+    private String color;
+    private Integer releaseYear;
     private String registrationNumber;
-    private User ownerId;
+    private UserDto ownerId;
     private Boolean availability;
 }
