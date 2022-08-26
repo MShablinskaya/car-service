@@ -1,7 +1,6 @@
 package com.innowise.sharing.service.impl;
 
 import com.innowise.sharing.dto.DocumentDto;
-import com.innowise.sharing.entity.Document;
 import com.innowise.sharing.mapper.DocumentMapper;
 import com.innowise.sharing.repository.DocumentRepository;
 import com.innowise.sharing.service.DocumentService;
@@ -14,12 +13,12 @@ import javax.persistence.EntityNotFoundException;
 @RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService {
     private final DocumentRepository documentRepository;
+    private final DocumentMapper mapper;
 
     @Override
     public DocumentDto getBySerialNumber(String serialNumber) {
-        Document document = documentRepository.findDocumentByLicenseNumber(serialNumber)
+        return documentRepository.findDocumentByLicenseNumber(serialNumber)
+                .map(mapper::documentToDocumentDto)
                 .orElseThrow(EntityNotFoundException::new);
-
-        return DocumentMapper.INSTANCE.documentToDocumentDto(document);
     }
 }

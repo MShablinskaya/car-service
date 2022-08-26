@@ -1,6 +1,6 @@
 package com.innowise.sharing.controller.impl;
 
-import com.innowise.sharing.controller.CarController;
+import com.innowise.sharing.controller.CarRest;
 import com.innowise.sharing.dto.CarDto;
 import com.innowise.sharing.service.CarService;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 @AllArgsConstructor
-public class CarControllerImpl implements CarController {
+public class CarRestImpl implements CarRest {
     private final CarService carService;
 
     @Override
@@ -36,9 +36,9 @@ public class CarControllerImpl implements CarController {
     }
 
     @Override
-    public ResponseEntity deleteCar(Long id) {
+    public ResponseEntity<CarDto> deleteCar(Long id) {
         carService.deleteCar(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override

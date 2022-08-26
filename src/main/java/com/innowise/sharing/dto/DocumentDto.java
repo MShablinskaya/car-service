@@ -1,13 +1,16 @@
 package com.innowise.sharing.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.experimental.Accessors;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class DocumentDto {
     private String licenseNumber;
     private Timestamp expirationDate;

@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cars")
-public interface CarController {
+public interface CarRest {
     //for owners
     @GetMapping("/all")
     @Operation(summary = "Get list of all cars", security = @SecurityRequirement(name = "bearerAuth"))
@@ -61,7 +61,7 @@ public interface CarController {
             @ApiResponse(responseCode = "204", description = "The car deleted, no content for response body"),
             @ApiResponse(responseCode = "403", description = "Access denied. Not enough rights")
     })
-    ResponseEntity deleteCar(@PathVariable(name = "id") Long id);
+    ResponseEntity<CarDto> deleteCar(@PathVariable(name = "id") Long id);
 
     //for customers
     @GetMapping("/available")

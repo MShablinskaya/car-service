@@ -6,7 +6,6 @@ import com.innowise.sharing.entity.Car;
 import com.innowise.sharing.mapper.CarMapper;
 import com.innowise.sharing.repository.CarRepository;
 import com.innowise.sharing.service.CarService;
-import com.innowise.sharing.service.DocumentService;
 import com.innowise.sharing.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,12 +19,13 @@ import java.util.stream.Collectors;
 public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
     private final UserService userService;
-    private final DocumentService documentService;
+    private final CarMapper mapper;
 
     @Override
     public CarDto findCarById(Long id) {
-        Car car = carRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        return setOwnerDto(car);
+        return carRepository.findById(id)
+                .map(this::setOwnerDto)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarDto addNewCarToList(CarDto dto) {
-        Car car = carRepository.save(CarMapper.INSTANCE.carDtoToCar(dto));
+        Car car = carRepository.save(mapper.carDtoToCar(dto));
         return setOwnerDto(car);
     }
 
@@ -68,10 +68,10 @@ public class CarServiceImpl implements CarService {
         return carRepository.save(car);
     }
 
-    private CarDto setOwnerDto(Car car){
+    private CarDto setOwnerDto(Car car) {
         String email = car.getOwner().getEmail();
         UserDto owner = userService.getUserByEmail(email);
-        CarDto carDto = CarMapper.INSTANCE.carToCarDto(car);
+        CarDto carDto = mapper.carToCarDto(car);
         carDto.setOwnerId(owner);
 
         return carDto;

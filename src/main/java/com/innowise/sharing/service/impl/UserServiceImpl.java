@@ -17,13 +17,14 @@ import javax.persistence.EntityNotFoundException;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final DocumentService documentService;
+    private final UserMapper mapper;
 
     @Override
     public UserDto getUserByEmail(String email) {
         User user = userRepository.findUserByEmail(email).orElseThrow(EntityNotFoundException::new);
         String licenseNumber = user.getLicence().getLicenseNumber();
         DocumentDto documentDto = documentService.getBySerialNumber(licenseNumber);
-        UserDto userDto = UserMapper.INSTANCE.userToUserDto(user);
+        UserDto userDto = mapper.userToUserDto(user);
         userDto.setLicenceId(documentDto);
 
         return userDto;
