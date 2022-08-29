@@ -5,6 +5,8 @@ spring:
     topic:
       name: car_topic
     bootstrap-servers: ${eureka.instance.hostname}:9092
+    properties:
+      schema.registry.url: http://localhost:8071
 
   datasource:
     url: jdbc:postgresql://${DATASOURCE_HOST:localhost}:5444/auto-sharing
@@ -15,18 +17,17 @@ spring:
       ddl-auto: update
     generate-ddl: true
     show-sql: true
-
     properties:
       hibernate:
         dialect: "org.hibernate.dialect.PostgreSQL9Dialect"
 
 server:
-  port: 8091
+  port: 8073
 
 eureka:
   instance:
     hostname: localhost
-    port: 8081
+    port: 8071
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka
