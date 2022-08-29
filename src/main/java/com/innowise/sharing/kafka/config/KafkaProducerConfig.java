@@ -29,7 +29,7 @@ public class KafkaProducerConfig {
         configProps.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class);
-        configProps.put(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8078");
+        configProps.put(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
