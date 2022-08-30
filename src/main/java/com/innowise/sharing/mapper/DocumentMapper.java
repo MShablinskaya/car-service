@@ -7,5 +7,4 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface DocumentMapper {
     DocumentDto documentToDocumentDto(Document document);
-    Document documentDtoToDocument(DocumentDto dto);
 }
