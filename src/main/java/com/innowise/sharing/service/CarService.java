@@ -11,9 +11,9 @@ public interface CarService {
 
     List<CarDto> getAvailableCars();
 
-    CarDto changeAvailabilityStatus(Long carId);
+    void changeAvailabilityStatus(Long carId);
 
-    CarDto addNewCarToList(CarDto dto);
+    void addNewCarToList(CarDto dto);
 
     void deleteCar(Long carId);
 }

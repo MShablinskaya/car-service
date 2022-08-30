@@ -42,7 +42,7 @@ public interface CarRest {
             @ApiResponse(responseCode = "200", description = "Status successfully changed"),
             @ApiResponse(responseCode = "403", description = "Access denied. Not enough rights")
     })
-    ResponseEntity<CarDto> changeCarAvailabilityStatus(@PathVariable(name = "id") Long id);
+    void changeCarAvailabilityStatus(@PathVariable(name = "id") Long id);
 
     @PostMapping
     @Operation(summary = "Post new record", security = @SecurityRequirement(name = "bearerAuth"))
@@ -50,7 +50,7 @@ public interface CarRest {
             @ApiResponse(responseCode = "200", description = "The new car successfully saved "),
             @ApiResponse(responseCode = "403", description = "Access denied. Not enough rights")
     })
-    ResponseEntity<CarDto> addNewCarToList(@RequestBody CarDto dto);
+    void addNewCarToList(@RequestBody CarDto dto);
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete car from list. Opportunity for owners only.", security = @SecurityRequirement(name = "bearerAuth"))
@@ -60,7 +60,7 @@ public interface CarRest {
             @ApiResponse(responseCode = "204", description = "The car deleted, no content for response body"),
             @ApiResponse(responseCode = "403", description = "Access denied. Not enough rights")
     })
-    ResponseEntity<CarDto> deleteCar(@PathVariable(name = "id") Long id);
+    void deleteCar(@PathVariable(name = "id") Long id);
 
     //for customers
     @GetMapping("/available")

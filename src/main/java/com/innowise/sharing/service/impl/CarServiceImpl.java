@@ -46,34 +46,25 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarDto changeAvailabilityStatus(Long carId) {
+    public void changeAvailabilityStatus(Long carId) {
         Car car = carRepository.findById(carId).orElseThrow(EntityNotFoundException::new);
-        car = changeStatus(car);
-        return setOwnerDto(car);
+        car.setAvailability(!car.getAvailability());
+        carRepository.save(car);
     }
 
     @Override
-    public CarDto addNewCarToList(CarDto dto) {
-        return setOwnerDto(saveCar(dto));
+    public void addNewCarToList(CarDto dto) {
+        Car car = mapper.carDtoToCar(dto);
+        String email = dto.getOwnerId().getEmail();
+        User user = userService.getUserByEmail(email);
+        car.setOwner(user);
+        carRepository.save(car);
     }
 
     @Override
     public void deleteCar(Long carId) {
         Car car = carRepository.findById(carId).orElseThrow(EntityNotFoundException::new);
         carRepository.delete(car);
-    }
-
-    private Car saveCar(CarDto dto){
-        Car car = mapper.carDtoToCar(dto);
-        String email = dto.getOwnerId().getEmail();
-        User user = userService.getUserByEmail(email);
-        car.setOwner(user);
-        return carRepository.save(car);
-    }
-
-    private Car changeStatus(Car car) {
-        car.setAvailability(!car.getAvailability());
-        return carRepository.save(car);
     }
 
     private CarDto setOwnerDto(Car car) {
