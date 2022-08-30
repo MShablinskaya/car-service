@@ -20,8 +20,38 @@
       "type": "string"
     },
     {
+      "name": "release_year",
+      "type": "int"
+    },
+    {
       "name": "registration_number",
       "type": "string"
+    },
+    {
+      "name": "owner",
+      "type": {
+        "type": "record",
+        "name": "Owner",
+        "namespace": "com.innowise.sharing.avro",
+        "fields": [
+          {
+            "name": "first_name",
+            "type": "string"
+          },
+          {
+            "name": "last_name",
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "availability",
+      "type": "boolean"
     }
   ]
 }

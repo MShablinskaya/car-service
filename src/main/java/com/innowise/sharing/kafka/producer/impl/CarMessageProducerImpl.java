@@ -36,14 +36,22 @@ public class CarMessageProducerImpl implements MessageProducer<Car> {
     @Override
     public void send(Car car) {
         Schema schema = new Schema.Parser().parse(new File(FILE_PATH));
-        GenericRecord avroRecord = new GenericRecordBuilder(schema)
+        GenericRecord ownerRecord = new GenericRecordBuilder(schema.getField("owner").schema())
+                .set("first_name", car.getOwnerId().getFirstName())
+                .set("last_name", car.getOwnerId().getLastName())
+                .set("email", car.getOwnerId().getEmail())
+                .build();
+        GenericRecord carRecord = new GenericRecordBuilder(schema)
                 .set("id", car.getId())
                 .set("brand", car.getBrand())
                 .set("model", car.getModel())
                 .set("color", car.getColor())
+                .set("release_year", car.getReleaseYear().getYear())
                 .set("registration_number", car.getRegistrationNumber())
+                .set("availability", car.getAvailability())
+                .set("owner", ownerRecord)
                 .build();
-        ProducerRecord<String, GenericRecord> producerRecord = new ProducerRecord<>(topicName, avroRecord);
+        ProducerRecord<String, GenericRecord> producerRecord = new ProducerRecord<>(topicName, carRecord);
         ListenableFuture<SendResult<String, GenericRecord>> future = kafkaTemplate.send(producerRecord);
         future.addCallback(new ListenableFutureCallback<>() {
             @Override
