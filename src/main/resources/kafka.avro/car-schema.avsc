@@ -45,6 +45,28 @@
           {
             "name": "email",
             "type": "string"
+          },
+          {
+            "name": "license",
+            "type": {
+              "type": "record",
+              "name": "License",
+              "namespace": "com.innowise.sharing.avro",
+              "fields": [
+                {
+                  "name": "license_number",
+                  "type": "string"
+                },
+                {
+                  "name": "expiration_date",
+                  "type": "string"
+                },
+                {
+                  "name": "document_type",
+                  "type": "string"
+                }
+              ]
+            }
           }
         ]
       }
