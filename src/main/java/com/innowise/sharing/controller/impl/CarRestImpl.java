@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -26,19 +27,18 @@ public class CarRestImpl implements CarRest {
     }
 
     @Override
-    public ResponseEntity<CarDto> changeCarAvailabilityStatus(Long id) {
-        return ResponseEntity.ok(carService.changeAvailabilityStatus(id));
+    public void changeCarAvailabilityStatus(Long id) {
+        carService.changeAvailabilityStatus(id);
     }
 
     @Override
-    public ResponseEntity<CarDto> addNewCarToList(CarDto dto) {
-        return ResponseEntity.ok(carService.addNewCarToList(dto));
+    public void addNewCarToList(CarDto dto) {
+       carService.addNewCarToList(dto);
     }
 
     @Override
-    public ResponseEntity<CarDto> deleteCar(Long id) {
+    public void deleteCar(Long id) {
         carService.deleteCar(id);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
