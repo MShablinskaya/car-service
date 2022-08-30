@@ -52,7 +52,7 @@ services:
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: kafka:29092
-      SCHEMA_REGISTRY_LISTENERS: http://localhost:8081
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
 
   rest-proxy:
     image: confluentinc/cp-kafka-rest:latest
@@ -66,5 +66,5 @@ services:
     environment:
       KAFKA_REST_HOST_NAME: rest-proxy
       KAFKA_REST_BOOTSTRAP_SERVERS: kafka:29092
-      KAFKA_REST_LISTENERS: http://localhost:8082
+      KAFKA_REST_LISTENERS: http://0.0.0.0:8082
       KAFKA_REST_SCHEMA_REGISTRY_URL: http://schema-registry:8081
