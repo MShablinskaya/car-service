@@ -23,7 +23,7 @@ public class UserRecordMapper implements RecordMapper<User> {
     @Override
     public GenericRecord mapToRecord(User user, Schema schema) {
         Schema userSchema = schema.getField(USER.getField()).schema();
-        GenericRecord documentRecord = documentRecordMapper.mapToRecord(user.getLicenceId(), userSchema);
+        GenericRecord documentRecord = documentRecordMapper.mapToRecord(user.getLicence(), userSchema);
         return new GenericRecordBuilder(userSchema)
                 .set(FIRST_NAME.getField(), user.getFirstName())
                 .set(LAST_NAME.getField(), user.getLastName())

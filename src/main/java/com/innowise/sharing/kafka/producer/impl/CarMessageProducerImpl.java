@@ -17,13 +17,14 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import java.io.File;
+import java.nio.file.Paths;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class CarMessageProducerImpl implements MessageProducer<Car> {
     private static final String FILE_PATH =
-            "G:\\Work\\Innowise\\AutoSharing\\car-service\\src\\main\\resources\\kafka.avro\\car-schema.avsc";
+            "kafka.avro/car-schema.avsc";
     private final KafkaTemplate<String, GenericRecord> kafkaTemplate;
     private final RecordMapper<Car> carRecordMapper;
     @Value(value = "${spring.kafka.topic.name}")
@@ -32,7 +33,8 @@ public class CarMessageProducerImpl implements MessageProducer<Car> {
     @SneakyThrows
     @Override
     public void send(Car car) {
-        Schema schema = new Schema.Parser().parse(new File(FILE_PATH));
+        File schemaFile = Paths.get(ClassLoader.getSystemResource(FILE_PATH).toURI()).toFile();
+        Schema schema = new Schema.Parser().parse(schemaFile);
         GenericRecord carRecord = carRecordMapper.mapToRecord(car, schema);
         ProducerRecord<String, GenericRecord> producerRecord = new ProducerRecord<>(topicName, carRecord);
         ListenableFuture<SendResult<String, GenericRecord>> future = kafkaTemplate.send(producerRecord);

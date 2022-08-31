@@ -25,13 +25,13 @@ public class CarRecordMapper implements RecordMapper<Car> {
 
     @Override
     public GenericRecord mapToRecord(Car car, Schema schema) {
-        GenericRecord ownerRecord = ownerRecordMapper.mapToRecord(car.getOwnerId(), schema);
+        GenericRecord ownerRecord = ownerRecordMapper.mapToRecord(car.getOwner(), schema);
         return new GenericRecordBuilder(schema)
                 .set(ID.getField(), car.getId())
                 .set(BRAND.getField(), car.getBrand())
                 .set(MODEL.getField(), car.getModel())
                 .set(COLOR.getField(), car.getColor())
-                .set(RELEASE_YEAR.getField(), car.getReleaseYear().getYear())
+                .set(RELEASE_YEAR.getField(), car.getReleaseYear())
                 .set(REGISTRATION_NUMBER.getField(), car.getRegistrationNumber())
                 .set(AVAILABILITY.getField(), car.getAvailability())
                 .set(USER.getField(), ownerRecord)
