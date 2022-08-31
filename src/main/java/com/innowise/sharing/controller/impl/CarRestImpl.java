@@ -4,10 +4,8 @@ import com.innowise.sharing.controller.CarRest;
 import com.innowise.sharing.dto.CarDto;
 import com.innowise.sharing.service.CarService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -23,7 +21,7 @@ public class CarRestImpl implements CarRest {
 
     @Override
     public ResponseEntity<CarDto> getCarById(Long id) {
-        return ResponseEntity.ok(carService.findCarById(id));
+        return ResponseEntity.ok(carService.findCarDtoById(id));
     }
 
     @Override

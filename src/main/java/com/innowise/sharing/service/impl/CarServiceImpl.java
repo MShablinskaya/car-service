@@ -10,22 +10,31 @@ import com.innowise.sharing.service.CarService;
 import com.innowise.sharing.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
     private final UserService userService;
     private final CarMapper mapper;
 
     @Override
-    public CarDto findCarById(Long id) {
+    public CarDto findCarDtoById(Long id) {
         return carRepository.findById(id)
                 .map(this::setOwnerDto)
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    public Car getCarEntityById(Long id) {
+        return carRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
     }
 
@@ -53,7 +62,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void addNewCarToList(CarDto dto) {
+    public void addNewCarToList(@Valid CarDto dto) {
         Car car = mapper.carDtoToCar(dto);
         String email = dto.getOwnerId().getEmail();
         User user = userService.getUserByEmail(email);

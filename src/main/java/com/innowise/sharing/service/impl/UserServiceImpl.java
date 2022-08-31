@@ -20,6 +20,12 @@ public class UserServiceImpl implements UserService {
     private final UserMapper mapper;
 
     @Override
+    public User getUSerById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
     public UserDto getUserDtoByEmail(String email) {
         User user = userRepository.findUserByEmail(email).orElseThrow(EntityNotFoundException::new);
         String licenseNumber = user.getLicence().getLicenseNumber();
