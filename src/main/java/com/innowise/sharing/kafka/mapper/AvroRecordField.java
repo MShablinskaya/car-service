@@ -8,11 +8,11 @@ public enum AvroRecordField {
     RELEASE_YEAR,
     REGISTRATION_NUMBER,
     AVAILABILITY,
-    OWNER,
+    USER,
     FIRST_NAME,
     LAST_NAME,
     EMAIL,
-    LICENSE,
+    DOCUMENT,
     LICENSE_NUMBER,
     EXPIRATION_DATE,
     DOCUMENT_TYPE;

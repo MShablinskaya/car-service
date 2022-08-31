@@ -28,7 +28,7 @@
       "type": "string"
     },
     {
-      "name": "owner",
+      "name": "user",
       "type": {
         "type": "record",
         "name": "Owner",
@@ -47,7 +47,7 @@
             "type": "string"
           },
           {
-            "name": "license",
+            "name": "document",
             "type": {
               "type": "record",
               "name": "License",

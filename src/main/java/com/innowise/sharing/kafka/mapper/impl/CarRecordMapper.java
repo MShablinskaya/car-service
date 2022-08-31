@@ -14,7 +14,7 @@ import static com.innowise.sharing.kafka.mapper.AvroRecordField.BRAND;
 import static com.innowise.sharing.kafka.mapper.AvroRecordField.COLOR;
 import static com.innowise.sharing.kafka.mapper.AvroRecordField.ID;
 import static com.innowise.sharing.kafka.mapper.AvroRecordField.MODEL;
-import static com.innowise.sharing.kafka.mapper.AvroRecordField.OWNER;
+import static com.innowise.sharing.kafka.mapper.AvroRecordField.USER;
 import static com.innowise.sharing.kafka.mapper.AvroRecordField.REGISTRATION_NUMBER;
 import static com.innowise.sharing.kafka.mapper.AvroRecordField.RELEASE_YEAR;
 
@@ -34,7 +34,7 @@ public class CarRecordMapper implements RecordMapper<Car> {
                 .set(RELEASE_YEAR.getField(), car.getReleaseYear().getYear())
                 .set(REGISTRATION_NUMBER.getField(), car.getRegistrationNumber())
                 .set(AVAILABILITY.getField(), car.getAvailability())
-                .set(OWNER.getField(), ownerRecord)
+                .set(USER.getField(), ownerRecord)
                 .build();
     }
 }
