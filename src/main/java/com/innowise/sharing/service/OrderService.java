@@ -14,5 +14,5 @@ public interface OrderService {
 
     OrderDto getOrderById(Long id);
 
-    List<OrderDto> getMyOrders(String email);
+    List<OrderDto> getMyOrders(@Valid String email);
 }

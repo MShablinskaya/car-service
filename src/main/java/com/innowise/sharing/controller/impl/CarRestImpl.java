@@ -4,6 +4,7 @@ import com.innowise.sharing.controller.CarRest;
 import com.innowise.sharing.dto.CarDto;
 import com.innowise.sharing.service.CarService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +17,8 @@ public class CarRestImpl implements CarRest {
 
     @Override
     public ResponseEntity<List<CarDto>> getAllCars() {
-        return ResponseEntity.ok(carService.getAllCars());
+        return carService.getAllCars().isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                new ResponseEntity<>(carService.getAllCars(), HttpStatus.OK);
     }
 
     @Override
@@ -41,6 +43,7 @@ public class CarRestImpl implements CarRest {
 
     @Override
     public ResponseEntity<List<CarDto>> getAvailableCars() {
-        return ResponseEntity.ok(carService.getAvailableCars());
+        return carService.getAvailableCars().isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                new ResponseEntity<>(carService.getAvailableCars(), HttpStatus.OK);
     }
 }

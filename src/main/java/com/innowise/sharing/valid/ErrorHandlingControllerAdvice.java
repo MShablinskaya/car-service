@@ -44,10 +44,16 @@ public class ErrorHandlingControllerAdvice {
         return new ValidationErrorResponse(violations);
     }
 
-    @ExceptionHandler({EntityNotFoundException.class})
+    @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorMessage handleException() {
+    public ErrorMessage handleEntityNotFoundException() {
         return new ErrorMessage("Entity not found");
+    }
+
+    @ExceptionHandler(NumberFormatException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleNumberFormatException() {
+        return new ErrorMessage("Invalid input format. There is number required.");
     }
 
 }

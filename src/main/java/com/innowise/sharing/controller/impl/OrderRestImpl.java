@@ -4,10 +4,10 @@ import com.innowise.sharing.controller.OrderRest;
 import com.innowise.sharing.dto.OrderDto;
 import com.innowise.sharing.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,7 +16,7 @@ public class OrderRestImpl implements OrderRest {
     private final OrderService orderService;
 
     @Override
-    public void postNewOrder(@Valid OrderDto dto) {
+    public void postNewOrder(OrderDto dto) {
         orderService.createNewCarOrder(dto);
     }
 
@@ -27,7 +27,8 @@ public class OrderRestImpl implements OrderRest {
 
     @Override
     public ResponseEntity<List<OrderDto>> getMyOrders(String email) {
-        return ResponseEntity.ok(orderService.getMyOrders(email));
+        return orderService.getMyOrders(email).isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                new ResponseEntity<>(orderService.getMyOrders(email), HttpStatus.OK);
     }
 
     @Override
