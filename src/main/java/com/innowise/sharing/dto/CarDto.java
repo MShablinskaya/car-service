@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
@@ -20,7 +22,10 @@ public class CarDto {
     private String model;
     @NotBlank
     private String color;
-    @PastOrPresent(message = "The year of release cannot be in the future")
+
+    @Min(1990)
+    @Max(2022)
+    @NotNull
     private Integer releaseYear;
     @NotBlank
     private String registrationNumber;

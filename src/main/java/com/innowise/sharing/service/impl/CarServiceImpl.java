@@ -10,16 +10,13 @@ import com.innowise.sharing.service.CarService;
 import com.innowise.sharing.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Validated
 public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
     private final UserService userService;
@@ -62,7 +59,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void addNewCarToList(@Valid CarDto dto) {
+    public void addNewCarToList(CarDto dto) {
         Car car = mapper.carDtoToCar(dto);
         String email = dto.getOwnerId().getEmail();
         User user = userService.getUserByEmail(email);
