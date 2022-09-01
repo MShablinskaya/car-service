@@ -5,7 +5,6 @@ import com.innowise.sharing.dto.OrderDto;
 import com.innowise.sharing.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -13,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Validated
 public class OrderRestImpl implements OrderRest {
     private final OrderService orderService;
 

@@ -15,9 +15,9 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class DocumentDto {
 
-    @NotBlank
+    @NotBlank(message = "You need to specify the valid license number")
     private String licenseNumber;
 
-    @Future(message = "The expiration date cannot be in tne past")
+    @Future(message = "The expiration date cannot be older than now")
     private Timestamp expirationDate;
 }

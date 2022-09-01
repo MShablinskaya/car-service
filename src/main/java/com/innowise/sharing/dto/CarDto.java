@@ -15,20 +15,26 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CarDto {
+
     private Long id;
-    @NotBlank
+
+    @NotBlank(message = "You need to specify the correct brand.")
     private String brand;
-    @NotBlank
+
+    @NotBlank(message = "You need to specify the correct model.")
     private String model;
-    @NotBlank
+
+    @NotBlank(message = "You need to specify the correct color.")
     private String color;
 
     @Min(1990)
     @Max(2022)
     @NotNull
     private Integer releaseYear;
-    @NotBlank
+
+    @NotBlank(message = "You need to specify the correct registration number.")
     private String registrationNumber;
+
     private UserDto ownerId;
     private Boolean availability;
 }

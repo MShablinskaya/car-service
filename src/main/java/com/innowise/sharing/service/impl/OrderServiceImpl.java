@@ -15,10 +15,8 @@ import com.innowise.sharing.service.OrderService;
 import com.innowise.sharing.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -26,7 +24,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Validated
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
@@ -35,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public void createNewCarOrder(@Valid OrderDto orderDto) {
+    public void createNewCarOrder(OrderDto orderDto) {
         Timestamp currentDate = Timestamp.from(Instant.now());
         Order order = saveOrder(orderDto);
         order.setBookingDate(currentDate);
@@ -48,9 +45,9 @@ public class OrderServiceImpl implements OrderService {
         String currentAction = Action.valueOf(action.toUpperCase()).getIncomingState();
         String currentState = order.getState().toString();
         State state = State.valueOf(currentAction);
-        if (!currentState.equals(currentAction)){
-        order.setState(state);
-        orderRepository.save(order);
+        if (!currentState.equals(currentAction)) {
+            order.setState(state);
+            orderRepository.save(order);
         }
     }
 
@@ -81,7 +78,7 @@ public class OrderServiceImpl implements OrderService {
         return dto;
     }
 
-    private Order saveOrder(OrderDto orderDto){
+    private Order saveOrder(OrderDto orderDto) {
         Order order = orderMapper.orderDtoToOrder(orderDto);
         Long carId = orderDto.getCar().getId();
         String email = orderDto.getCustomer().getEmail();

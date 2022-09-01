@@ -15,12 +15,17 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class OrderDto {
     private Long id;
+
     private UserDto customer;
+
     private CarDto car;
-    @NotBlank(message = "Cant be null or empty")
+
+    @NotBlank(message = "Can't be empty")
     private String state;
+
     @FutureOrPresent(message = "You cannot reserve a car retroactively")
     private Timestamp bookingDate;
+
     @FutureOrPresent(message = "You cannot return a car retroactively")
     private Timestamp returnDate;
 }

@@ -14,13 +14,13 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class UserDto {
 
-    @NotBlank
+    @NotBlank(message = "The first name cannot be empty")
     private String firstName;
 
-    @NotBlank
+    @NotBlank(message = "The last name cannot be empty")
     private String lastName;
 
-    @Email
+    @Email(message = "Must be a well-formed email address")
     private String email;
 
     private DocumentDto licenceId;
