@@ -25,7 +25,8 @@ public class CarRecordMapper implements RecordMapper<Car> {
 
     @Override
     public GenericRecord mapToRecord(Car car, Schema schema) {
-        GenericRecord ownerRecord = ownerRecordMapper.mapToRecord(car.getOwner(), schema);
+        Schema userSchema = schema.getField(USER.getField()).schema();
+        GenericRecord ownerRecord = ownerRecordMapper.mapToRecord(car.getOwner(), userSchema);
         return new GenericRecordBuilder(schema)
                 .set(ID.getField(), car.getId())
                 .set(BRAND.getField(), car.getBrand())

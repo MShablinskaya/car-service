@@ -25,8 +25,10 @@ public class OrderRecordMapper implements RecordMapper<Order> {
 
     @Override
     public GenericRecord mapToRecord(Order order, Schema schema) {
-        GenericRecord carRecord = carRecordMapper.mapToRecord(order.getCar(), schema);
-        GenericRecord customerRecord = customerRecordMapper.mapToRecord(order.getCustomer(), schema);
+        Schema carSchema = schema.getField(CAR.getField()).schema();
+        Schema customerSchema = schema.getField(USER.getField()).schema();
+        GenericRecord carRecord = carRecordMapper.mapToRecord(order.getCar(), carSchema);
+        GenericRecord customerRecord = customerRecordMapper.mapToRecord(order.getCustomer(), customerSchema);
         return new GenericRecordBuilder(schema)
                 .set(ID.getField(), order.getId())
                 .set(BOOKING_DATE.getField(), order.getBookingDate().toString())

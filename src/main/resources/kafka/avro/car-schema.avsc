@@ -50,7 +50,7 @@
             "name": "document",
             "type": {
               "type": "record",
-              "name": "License",
+              "name": "Passport",
               "namespace": "com.innowise.sharing.avro",
               "fields": [
                 {
