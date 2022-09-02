@@ -60,7 +60,7 @@ public interface CarRest {
             @ApiResponse(responseCode = "204", description = "The car deleted, no content for response body"),
             @ApiResponse(responseCode = "403", description = "Access denied. Not enough rights")
     })
-    void deleteCar(@PathVariable("id") Long id);
+    void deleteCar(@PathVariable(name = "id") Long id);
 
     //for customers
     @GetMapping("/available")
