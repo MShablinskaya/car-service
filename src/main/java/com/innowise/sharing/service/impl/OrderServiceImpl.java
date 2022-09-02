@@ -15,18 +15,16 @@ import com.innowise.sharing.service.OrderService;
 import com.innowise.sharing.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Validated
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
@@ -35,22 +33,28 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public void createNewCarOrder(@Valid OrderDto orderDto) {
+    public boolean createNewCarOrder(OrderDto orderDto) {
         Timestamp currentDate = Timestamp.from(Instant.now());
         Order order = saveOrder(orderDto);
         order.setBookingDate(currentDate);
         order.setState(State.RESERVED);
+
+        return true;
     }
 
     @Override
-    public void updateStateOfCarOrder(Long orderId, String action) {
+    public boolean updateStateOfCarOrder(Long orderId, String action) {
         Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
-        String currentAction = Action.valueOf(action.toUpperCase()).getIncomingState();
+        String incomingState = Action.valueOf(action.toUpperCase()).getIncomingState();
         String currentState = order.getState().toString();
-        State state = State.valueOf(currentAction);
-        if (!currentState.equals(currentAction)){
-        order.setState(state);
-        orderRepository.save(order);
+        List<String> availableActions = availableActions(orderId);
+        if (!currentState.equals(incomingState) && availableActions.contains(action.toUpperCase())) {
+            State state = State.valueOf(incomingState);
+            order.setState(state);
+            orderRepository.save(order);
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -75,13 +79,15 @@ public class OrderServiceImpl implements OrderService {
         CarDto carDto = carService.findCarDtoById(carId);
         UserDto userDto = userService.getUserDtoByEmail(email);
         OrderDto dto = orderMapper.orderToOrderDto(order);
+        List<String> actions = availableActions(order.getId());
         dto.setCustomer(userDto);
         dto.setCar(carDto);
+        dto.setActions(actions);
 
         return dto;
     }
 
-    private Order saveOrder(OrderDto orderDto){
+    private Order saveOrder(OrderDto orderDto) {
         Order order = orderMapper.orderDtoToOrder(orderDto);
         Long carId = orderDto.getCar().getId();
         String email = orderDto.getCustomer().getEmail();
@@ -90,6 +96,22 @@ public class OrderServiceImpl implements OrderService {
         order.setCar(car);
         order.setCustomer(customer);
         carService.changeAvailabilityStatus(carId);
+
         return orderRepository.save(order);
+    }
+
+    private List<String> availableActions(Long id) {
+        OrderDto orderDto = orderRepository.findById(id)
+                .map(orderMapper::orderToOrderDto)
+                .orElseThrow(EntityNotFoundException::new);
+        List<String> actions = new ArrayList<>();
+        if (orderDto.getState().equals(State.RESERVED.toString())) {
+            actions.add(Action.CANCEL.toString());
+            actions.add(Action.CONFIRM.toString());
+        } else if (orderDto.getState().equals(State.IN_USE.toString())) {
+            actions.add(Action.RETURN.toString());
+        }
+
+        return actions;
     }
 }

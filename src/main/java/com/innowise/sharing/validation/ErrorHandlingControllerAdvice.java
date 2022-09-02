@@ -1,9 +1,7 @@
-package com.innowise.sharing.controller;
+package com.innowise.sharing.validation;
 
-import com.innowise.sharing.validation.ValidationErrorResponse;
-import com.innowise.sharing.validation.Violation;
 import org.springframework.http.HttpStatus;
-import org.springframework.messaging.handler.annotation.support.MethodArgumentNotValidException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

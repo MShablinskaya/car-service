@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @Builder
@@ -23,4 +24,6 @@ public class OrderDto {
     private Timestamp bookingDate;
     @FutureOrPresent(message = "You cannot return a car retroactively")
     private Timestamp returnDate;
+
+    private List<String> actions;
 }
