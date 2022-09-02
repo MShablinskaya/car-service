@@ -35,11 +35,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public boolean createNewCarOrder(OrderDto orderDto) {
         Timestamp currentDate = Timestamp.from(Instant.now());
-        Order order = saveOrder(orderDto);
-        order.setBookingDate(currentDate);
-        order.setState(State.RESERVED);
+        Long carId = orderDto.getCar().getId();
+        CarDto carDto = carService.findCarDtoById(carId);
+        if (Boolean.TRUE.equals(carDto.getAvailability())) {
+            Order order = saveOrder(orderDto);
+            order.setBookingDate(currentDate);
+            order.setState(State.RESERVED);
 
-        return true;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -47,10 +53,12 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
         String incomingState = Action.valueOf(action.toUpperCase()).getIncomingState();
         String currentState = order.getState().toString();
+        Long carId = order.getCar().getId();
         List<String> availableActions = availableActions(orderId);
         if (!currentState.equals(incomingState) && availableActions.contains(action.toUpperCase())) {
             State state = State.valueOf(incomingState);
             order.setState(state);
+            revertCarIfOrderDone(carId, incomingState);
             orderRepository.save(order);
             return true;
         } else {
@@ -113,5 +121,11 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return actions;
+    }
+
+    private void revertCarIfOrderDone(Long carId, String state) {
+        if (state.equals(State.RETURNED.toString()) || state.equals(State.CANCELLED.toString())) {
+            carService.changeAvailabilityStatus(carId);
+        }
     }
 }
