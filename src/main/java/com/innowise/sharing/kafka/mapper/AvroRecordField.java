@@ -15,7 +15,11 @@ public enum AvroRecordField {
     DOCUMENT,
     LICENSE_NUMBER,
     EXPIRATION_DATE,
-    DOCUMENT_TYPE;
+    DOCUMENT_TYPE,
+    BOOKING_DATE,
+    RETURN_DATE,
+    STATE,
+    CAR;
 
     public String getField() {
         return this.name().toLowerCase();

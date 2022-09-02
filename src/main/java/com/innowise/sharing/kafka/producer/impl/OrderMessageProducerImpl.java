@@ -1,6 +1,6 @@
 package com.innowise.sharing.kafka.producer.impl;
 
-import com.innowise.sharing.entity.Car;
+import com.innowise.sharing.entity.Order;
 import com.innowise.sharing.kafka.mapper.RecordMapper;
 import com.innowise.sharing.kafka.producer.MessageProducer;
 import lombok.RequiredArgsConstructor;
@@ -20,32 +20,32 @@ import java.io.File;
 import java.nio.file.Paths;
 
 @Slf4j
-@Component("carMessageProducer")
+@Component("orderMessageProducer")
 @RequiredArgsConstructor
-public class CarMessageProducerImpl implements MessageProducer<Car> {
-    private static final String SCHEMA_FILE_PATH = "kafka/avro/car-schema.avsc";
+public class OrderMessageProducerImpl implements MessageProducer<Order> {
+    private static final String SCHEMA_FILE_PATH = "kafka/avro/order-schema.avsc";
     private final KafkaTemplate<String, GenericRecord> kafkaTemplate;
-    private final RecordMapper<Car> carRecordMapper;
-    @Value(value = "${spring.kafka.topic.name.car}")
+    private final RecordMapper<Order> orderRecordMapper;
+    @Value(value = "${spring.kafka.topic.name.order}")
     private String topicName;
 
     @SneakyThrows
     @Override
-    public void send(Car car) {
+    public void send(Order order) {
         final File schemaFile = Paths.get(ClassLoader.getSystemResource(SCHEMA_FILE_PATH).toURI()).toFile();
         final Schema schema = new Schema.Parser().parse(schemaFile);
-        GenericRecord carRecord = carRecordMapper.mapToRecord(car, schema);
-        ProducerRecord<String, GenericRecord> producerRecord = new ProducerRecord<>(topicName, carRecord);
+        GenericRecord orderRecord = orderRecordMapper.mapToRecord(order, schema);
+        ProducerRecord<String, GenericRecord> producerRecord = new ProducerRecord<>(topicName, orderRecord);
         ListenableFuture<SendResult<String, GenericRecord>> future = kafkaTemplate.send(producerRecord);
         future.addCallback(new ListenableFutureCallback<>() {
             @Override
             public void onSuccess(SendResult<String, GenericRecord> result) {
-                log.info("Car data was successfully sent.");
+                log.info("Order data was successfully sent.");
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                log.error("Unable to send car data due to : {}", throwable.getMessage());
+                log.error("Unable to send order data due to : {}", throwable.getMessage());
             }
         });
     }
