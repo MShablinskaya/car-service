@@ -23,18 +23,17 @@ import java.nio.file.Paths;
 @Component
 @RequiredArgsConstructor
 public class CarMessageProducerImpl implements MessageProducer<Car> {
-    private static final String FILE_PATH =
-            "kafka.avro/car-schema.avsc";
+    private static final String SCHEMA_FILE_PATH = "kafka/avro/car-schema.avsc";
     private final KafkaTemplate<String, GenericRecord> kafkaTemplate;
     private final RecordMapper<Car> carRecordMapper;
-    @Value(value = "${spring.kafka.topic.name}")
+    @Value(value = "${spring.kafka.topic.name.car}")
     private String topicName;
 
     @SneakyThrows
     @Override
     public void send(Car car) {
-        File schemaFile = Paths.get(ClassLoader.getSystemResource(FILE_PATH).toURI()).toFile();
-        Schema schema = new Schema.Parser().parse(schemaFile);
+        final File schemaFile = Paths.get(ClassLoader.getSystemResource(SCHEMA_FILE_PATH).toURI()).toFile();
+        final Schema schema = new Schema.Parser().parse(schemaFile);
         GenericRecord carRecord = carRecordMapper.mapToRecord(car, schema);
         ProducerRecord<String, GenericRecord> producerRecord = new ProducerRecord<>(topicName, carRecord);
         ListenableFuture<SendResult<String, GenericRecord>> future = kafkaTemplate.send(producerRecord);

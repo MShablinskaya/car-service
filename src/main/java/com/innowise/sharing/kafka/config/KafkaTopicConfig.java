@@ -14,8 +14,10 @@ import java.util.Map;
 public class KafkaTopicConfig {
     @Value(value = "${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
-    @Value(value = "${spring.kafka.topic.name}")
-    private String topicName;
+    @Value(value = "${spring.kafka.topic.name.car}")
+    private String carTopicName;
+    @Value(value = "${spring.kafka.topic.name.order}")
+    private String orderTopicName;
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
@@ -25,7 +27,12 @@ public class KafkaTopicConfig {
     }
 
     @Bean
-    public NewTopic newTopic() {
-        return new NewTopic(topicName, 1, (short) 1);
+    public NewTopic carTopic() {
+        return new NewTopic(carTopicName, 1, (short) 1);
+    }
+
+    @Bean
+    public NewTopic orderTopic() {
+        return new NewTopic(orderTopicName, 1, (short) 1);
     }
 }

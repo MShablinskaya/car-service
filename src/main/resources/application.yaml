@@ -3,7 +3,9 @@ spring:
     name: car-service
   kafka:
     topic:
-      name: car_topic
+      name:
+        car: car_topic
+        order: order_topic
     bootstrap-servers: ${eureka.instance.hostname}:9092
     properties:
       schema.registry.url: http://localhost:8071
