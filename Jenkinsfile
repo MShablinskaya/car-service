@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building...'
+                sh './gradlew clean build'
             }
         }
         stage('Deploy') {
