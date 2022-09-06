@@ -33,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public boolean createNewCarOrder(OrderDto orderDto) {
+    public void createNewCarOrder(OrderDto orderDto) {
         Timestamp currentDate = Timestamp.from(Instant.now());
         Long carId = orderDto.getCar().getId();
         CarDto carDto = carService.findCarDtoById(carId);
@@ -41,15 +41,11 @@ public class OrderServiceImpl implements OrderService {
             Order order = saveOrder(orderDto);
             order.setBookingDate(currentDate);
             order.setState(State.RESERVED);
-
-            return true;
-        } else {
-            return false;
         }
     }
 
     @Override
-    public boolean updateStateOfCarOrder(Long orderId, String action) {
+    public void updateStateOfCarOrder(Long orderId, String action) {
         Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
         String incomingState = Action.valueOf(action.toUpperCase()).getIncomingState();
         String currentState = order.getState().toString();
@@ -60,9 +56,6 @@ public class OrderServiceImpl implements OrderService {
             order.setState(state);
             revertCarIfOrderDone(carId, incomingState);
             orderRepository.save(order);
-            return true;
-        } else {
-            return false;
         }
     }
 

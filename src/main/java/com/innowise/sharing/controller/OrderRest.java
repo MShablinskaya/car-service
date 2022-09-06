@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +24,7 @@ public interface OrderRest {
             @ApiResponse(responseCode = "200", description = "The new car successfully saved "),
             @ApiResponse(responseCode = "403", description = "Access denied. Not enough rights")
     })
-    ResponseEntity<HttpStatus> postNewOrder(@RequestBody OrderDto dto);
+    void postNewOrder(@RequestBody OrderDto dto);
 
     @GetMapping("/{id}")
     @Operation(summary = "Get order by order's id", security = @SecurityRequirement(name = "bearerAuth"))
@@ -49,6 +48,6 @@ public interface OrderRest {
             @ApiResponse(responseCode = "200", description = "Status successfully changed"),
             @ApiResponse(responseCode = "403", description = "Access denied. Not enough rights")
     })
-    ResponseEntity<HttpStatus> updateStateCarOrder(@PathVariable(name = "id") Long id,
-                                                   @RequestBody String action);
+    void updateStateCarOrder(@PathVariable(name = "id") Long id,
+                             @RequestBody String action);
 }
