@@ -3,14 +3,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh './gradlew clean build'
+                echo 'Building...'
             }
         }
-        stage('SonarQube Analysis') {
+        stage('Deploy') {
             steps {
-                withSonarQubeEnv('Sonar') {
-                          sh './gradlew jacocoTestReport sonarqube -Dsonar.login=b82de7b91b30c7479f84869133f3db9e881e6e0f'
-                        }
+                echo 'Deploying...'
             }
         }
     }
