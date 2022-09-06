@@ -1,17 +1,16 @@
 pipeline {
     agent any
-    environment {
-        BITBUCKET_COMMON_CREDS = credentials('bitbucket-ssh-key')
-    }
     stages {
         stage('Build') {
             steps {
-                echo 'Building...'
+                sh './gradlew clean build'
             }
         }
-        stage('Deploy') {
+        stage('SonarQube Analysis') {
             steps {
-                echo 'Deploying...'
+                withSonarQubeEnv('Sonar') {
+                          sh './gradlew jacocoTestReport sonarqube -Dsonar.login=b82de7b91b30c7479f84869133f3db9e881e6e0f'
+                        }
             }
         }
     }
