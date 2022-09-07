@@ -22,8 +22,8 @@ public class ErrorHandlingControllerAdvice {
             ConstraintViolationException e) {
         final List<Violation> violations = e.getConstraintViolations().stream()
                 .map(violation -> new Violation(
-                                violation.getPropertyPath().toString(),
-                                violation.getMessage())
+                        violation.getPropertyPath().toString(),
+                        violation.getMessage())
                 ).collect(Collectors.toList());
         return new ValidationErrorResponse(violations);
     }

@@ -5,6 +5,8 @@ import com.innowise.sharing.entity.User;
 
 public interface UserService {
     User getUSerById(Long id);
+
     UserDto getUserDtoByEmail(String email);
+
     User getUserByEmail(String email);
 }

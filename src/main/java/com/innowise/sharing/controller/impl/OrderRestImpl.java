@@ -4,7 +4,6 @@ import com.innowise.sharing.controller.OrderRest;
 import com.innowise.sharing.dto.OrderDto;
 import com.innowise.sharing.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,8 +26,7 @@ public class OrderRestImpl implements OrderRest {
 
     @Override
     public ResponseEntity<List<OrderDto>> getMyOrders(String email) {
-        return orderService.getMyOrders(email).isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
-                new ResponseEntity<>(orderService.getMyOrders(email), HttpStatus.OK);
+        return ResponseEntity.ok(orderService.getMyOrders(email));
     }
 
     @Override
