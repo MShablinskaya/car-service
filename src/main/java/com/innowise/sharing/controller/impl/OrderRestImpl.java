@@ -27,8 +27,7 @@ public class OrderRestImpl implements OrderRest {
 
     @Override
     public ResponseEntity<List<OrderDto>> getMyOrders(String email) {
-        return orderService.getMyOrders(email).isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
-                new ResponseEntity<>(orderService.getMyOrders(email), HttpStatus.OK);
+        return ResponseEntity.ok(orderService.getMyOrders(email));
     }
 
     @Override

@@ -17,8 +17,7 @@ public class CarRestImpl implements CarRest {
 
     @Override
     public ResponseEntity<List<CarDto>> getAllCars() {
-        return carService.getAllCars().isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
-                new ResponseEntity<>(carService.getAllCars(), HttpStatus.OK);
+        return ResponseEntity.ok(carService.getAllCars());
     }
 
     @Override
@@ -43,7 +42,6 @@ public class CarRestImpl implements CarRest {
 
     @Override
     public ResponseEntity<List<CarDto>> getAvailableCars() {
-        return carService.getAvailableCars().isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
-                new ResponseEntity<>(carService.getAvailableCars(), HttpStatus.OK);
+        return ResponseEntity.ok(carService.getAvailableCars());
     }
 }
