@@ -1,8 +1,5 @@
 /.gradle/
 /.idea/
-/build/classes/
-/build/generated/
-/build/resources/
-/build/tmp/
+/build/
 
 gradlew.bat
