@@ -5,14 +5,15 @@ pipeline {
             steps {
                 sh './gradlew clean build'
             }
+        }
         stage('Test') {
-                    steps {
-                        echo 'Testing coming soon...'
-                    }
-                }
+            steps {
+                echo 'Testing coming soon...'
+            }
+        }
         stage('Deploy') {
             steps {
-                echo 'Deploying checking build trigger...'
+                echo 'Deploying coming soon..'
             }
         }
     }
