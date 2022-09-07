@@ -1,11 +1,13 @@
 package com.innowise.sharing.controller;
 
 import com.innowise.sharing.dto.OrderDto;
+import com.innowise.sharing.valid.group.OnCreateGroup;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,9 +15,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/orders")
+@Validated
 public interface OrderRest {
 
     @PostMapping
@@ -24,7 +28,8 @@ public interface OrderRest {
             @ApiResponse(responseCode = "200", description = "The new car successfully saved "),
             @ApiResponse(responseCode = "403", description = "Access denied. Not enough rights")
     })
-    void postNewOrder(@RequestBody OrderDto dto);
+    @Validated(OnCreateGroup.class)
+    void postNewOrder(@RequestBody @Valid OrderDto dto);
 
     @GetMapping("/{id}")
     @Operation(summary = "Get order by order's id", security = @SecurityRequirement(name = "bearerAuth"))

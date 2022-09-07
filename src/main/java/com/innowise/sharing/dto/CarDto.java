@@ -1,5 +1,6 @@
 package com.innowise.sharing.dto;
 
+import com.innowise.sharing.valid.group.OnCreateGroup;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,8 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Data
 @Builder
@@ -16,23 +17,25 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class CarDto {
 
+    @NotNull(groups = OnCreateGroup.class, message = "You need to specify car id.")
+    @Min(value = 1, groups = OnCreateGroup.class, message = "You need to specify correct car id.")
     private Long id;
 
-    @NotBlank(message = "You need to specify the correct brand.")
+    @Pattern(regexp = "[А-Яа-яё\\p{Alpha}]{1,20}", message = "You need to specify the correct brand.")
     private String brand;
 
-    @NotBlank(message = "You need to specify the correct model.")
+    @Pattern(regexp = "[\\dА-Яа-яё\\p{Alpha}-]{1,20}", message = "You need to specify the correct model.")
     private String model;
 
-    @NotBlank(message = "You need to specify the correct color.")
+    @Pattern(regexp = "[А-Яа-яё\\p{Alpha}-]{1,20}", message = "You need to specify the correct color.")
     private String color;
 
     @Min(1990)
     @Max(2022)
-    @NotNull
     private Integer releaseYear;
 
-    @NotBlank(message = "You need to specify the correct registration number.")
+    @Pattern(regexp = "\\d{4} [A-Z]{2}-\\d",
+            message = "You need to specify the correct registration number (example:0000 AA-0).")
     private String registrationNumber;
 
     private UserDto ownerId;

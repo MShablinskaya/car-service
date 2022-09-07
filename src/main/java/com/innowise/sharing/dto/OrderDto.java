@@ -1,12 +1,14 @@
 package com.innowise.sharing.dto;
 
+import com.innowise.sharing.valid.group.OnCreateGroup;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
 import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Data
@@ -16,16 +18,19 @@ import java.sql.Timestamp;
 public class OrderDto {
     private Long id;
 
+    @NotNull(groups = OnCreateGroup.class)
+    @Valid
     private UserDto customer;
 
+    @NotNull(groups = OnCreateGroup.class)
+    @Valid
     private CarDto car;
 
-    @NotBlank(message = "Can't be empty")
     private String state;
 
-    @FutureOrPresent(message = "You cannot reserve a car retroactively")
+    @FutureOrPresent(message = "You cannot reserve a car retroactively.")
     private Timestamp bookingDate;
 
-    @FutureOrPresent(message = "You cannot return a car retroactively")
+    @FutureOrPresent(message = "You cannot return a car retroactively.")
     private Timestamp returnDate;
 }
