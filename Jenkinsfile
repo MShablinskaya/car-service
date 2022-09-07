@@ -6,11 +6,10 @@ pipeline {
                 sh './gradlew clean build'
             }
         }
-        stage('SonarQube') {
-                            steps {
-                                echo 'Here will be SonarQube...'
-                            }
-                        }
+        stage('SonarQube Analysis') {
+            withSonarQubeEnv() {
+              sh "./gradlew sonarqube"
+            }
         stage('Test') {
                     steps {
                         echo 'Testing...'
