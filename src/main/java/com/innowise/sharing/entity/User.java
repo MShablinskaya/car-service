@@ -38,12 +38,12 @@ public class User {
     private String lastName;
 
     @Column(name = "email")
-    @Pattern(regexp = ".+@.+\\.[a-z]", message = "Invalid Email address!")
+    @Pattern(regexp = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", message = "Invalid Email address!")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String email;
 
     @Column(name = "password")
-    @Pattern(regexp = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", flags = Pattern.Flag.UNICODE_CASE)
+    @Pattern(regexp = "^(&=.*\\d).{6,20}$", flags = Pattern.Flag.UNICODE_CASE)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
