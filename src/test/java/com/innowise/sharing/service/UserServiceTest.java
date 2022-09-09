@@ -43,7 +43,6 @@ class UserServiceTest {
         DocumentDto documentDto = DocumentTestUtil.createDocumentDto();
 
         when(userRepository.findUserByEmail(UserTestUtil.EMAIL)).thenReturn(Optional.ofNullable(expectedUser));
-        assert expectedUser != null;
         when(mapper.userToUserDto(expectedUser)).thenReturn(expectedUserDto);
         when(documentService.getBySerialNumber(DocumentTestUtil.NUMBER)).thenReturn(documentDto);
 

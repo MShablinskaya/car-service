@@ -11,6 +11,7 @@ import com.innowise.sharing.enums.State;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderTestUtil {
@@ -22,9 +23,11 @@ public class OrderTestUtil {
     public static final State STATE = State.RESERVED;
     public static final Timestamp BOOKING_DATE = Timestamp.from(Instant.now());
     public static final Timestamp RETURN_DATE = Timestamp.from(Instant.now());
+    public static final String ACTION = "CONFIRM";
+    public static final List<String> actionsList = new ArrayList<>();
 
 
-    public Order createOrder() {
+    public static Order createOrder() {
         return new Order()
                 .setId(ID)
                 .setCustomer(USER)
@@ -34,8 +37,9 @@ public class OrderTestUtil {
                 .setReturnDate(RETURN_DATE);
     }
 
-    public OrderDto createOrderDto() {
-        return OrderDto.builder()
+    public static OrderDto createOrderDto() {
+        actionsList.add(ACTION);
+        OrderDto dto =  OrderDto.builder()
                 .id(ID)
                 .customer(USER_DTO)
                 .car(CAR_DTO)
@@ -43,6 +47,8 @@ public class OrderTestUtil {
                 .bookingDate(BOOKING_DATE)
                 .returnDate(RETURN_DATE)
                 .build();
+        dto.setActions(actionsList);
+        return dto;
     }
 
 
