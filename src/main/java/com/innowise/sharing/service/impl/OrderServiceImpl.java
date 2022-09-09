@@ -41,6 +41,7 @@ public class OrderServiceImpl implements OrderService {
             Order order = saveOrder(orderDto);
             order.setBookingDate(currentDate);
             order.setState(State.RESERVED);
+            orderRepository.save(order);
         }
     }
 
@@ -54,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
         if (!currentState.equals(incomingState) && availableActions.contains(action.toUpperCase())) {
             State state = State.valueOf(incomingState);
             order.setState(state);
-            revertCarIfOrderDone(carId, incomingState);
+            revertCarIfOrderDone(carId, orderId);
             orderRepository.save(order);
         }
     }
@@ -116,9 +117,14 @@ public class OrderServiceImpl implements OrderService {
         return actions;
     }
 
-    private void revertCarIfOrderDone(Long carId, String state) {
+    private void revertCarIfOrderDone(Long carId, Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
+        String state = order.getState().toString();
+        Timestamp currentDate = Timestamp.from(Instant.now());
         if (state.equals(State.RETURNED.toString()) || state.equals(State.CANCELLED.toString())) {
             carService.changeAvailabilityStatus(carId);
+            order.setReturnDate(currentDate);
+            orderRepository.save(order);
         }
     }
 }
