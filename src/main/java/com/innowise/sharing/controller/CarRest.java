@@ -1,11 +1,13 @@
 package com.innowise.sharing.controller;
 
 import com.innowise.sharing.dto.CarDto;
+import com.innowise.sharing.valid.group.OnCreateGroup;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import java.util.List;
 
 
 @RequestMapping("/cars")
+@Validated
 public interface CarRest {
     //for owners
     @GetMapping("/all")
@@ -42,7 +45,7 @@ public interface CarRest {
             @ApiResponse(responseCode = "200", description = "Status successfully changed"),
             @ApiResponse(responseCode = "403", description = "Access denied. Not enough rights")
     })
-    ResponseEntity<CarDto> changeCarAvailabilityStatus(@PathVariable(name = "id") Long id);
+    void changeCarAvailabilityStatus(@PathVariable(name = "id") Long id);
 
     @PostMapping
     @Operation(summary = "Post new record", security = @SecurityRequirement(name = "bearerAuth"))
@@ -50,7 +53,8 @@ public interface CarRest {
             @ApiResponse(responseCode = "200", description = "The new car successfully saved "),
             @ApiResponse(responseCode = "403", description = "Access denied. Not enough rights")
     })
-    ResponseEntity<CarDto> addNewCarToList(@RequestBody CarDto dto);
+    @Validated(OnCreateGroup.class)
+    void addNewCarToList(@RequestBody CarDto dto);
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete car from list. Opportunity for owners only.", security = @SecurityRequirement(name = "bearerAuth"))
@@ -60,7 +64,7 @@ public interface CarRest {
             @ApiResponse(responseCode = "204", description = "The car deleted, no content for response body"),
             @ApiResponse(responseCode = "403", description = "Access denied. Not enough rights")
     })
-    ResponseEntity<CarDto> deleteCar(@PathVariable(name = "id") Long id);
+    void deleteCar(@PathVariable(name = "id") Long id);
 
     //for customers
     @GetMapping("/available")
