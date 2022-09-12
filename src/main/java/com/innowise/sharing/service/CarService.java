@@ -1,11 +1,14 @@
 package com.innowise.sharing.service;
 
 import com.innowise.sharing.dto.CarDto;
+import com.innowise.sharing.entity.Car;
 
 import java.util.List;
 
 public interface CarService {
-    CarDto findCarById(Long id);
+    CarDto findCarDtoById(Long id);
+
+    Car getCarEntityById(Long id);
 
     List<CarDto> getAllCars();
 

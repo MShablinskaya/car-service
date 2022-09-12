@@ -23,9 +23,15 @@ public class CarServiceImpl implements CarService {
     private final CarMapper mapper;
 
     @Override
-    public CarDto findCarById(Long id) {
+    public CarDto findCarDtoById(Long id) {
         return carRepository.findById(id)
                 .map(this::setOwnerDto)
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    public Car getCarEntityById(Long id) {
+        return carRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
     }
 

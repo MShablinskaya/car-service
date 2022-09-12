@@ -21,12 +21,12 @@ spring:
         dialect: "org.hibernate.dialect.PostgreSQL9Dialect"
 
 server:
-  port: 8091
+  port: 8073
 
 eureka:
   instance:
     hostname: localhost
-    port: 8081
+    port: 8071
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka

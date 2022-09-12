@@ -8,6 +8,8 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,6 +41,7 @@ public class Order {
     private Car car;
 
     @Column(name = "state")
+    @Enumerated(EnumType.STRING)
     private State state;
 
     @Column(name = "booking_date")
