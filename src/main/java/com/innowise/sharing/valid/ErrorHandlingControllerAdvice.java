@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ErrorHandlingControllerAdvice {
@@ -23,8 +22,8 @@ public class ErrorHandlingControllerAdvice {
         final List<Violation> violations = e.getConstraintViolations().stream()
                 .map(violation -> new Violation(
                         violation.getPropertyPath().toString(),
-                        violation.getMessage())
-                ).collect(Collectors.toList());
+                        violation.getMessage()))
+                .toList();
         return new ValidationErrorResponse(violations);
     }
 
@@ -35,7 +34,7 @@ public class ErrorHandlingControllerAdvice {
             MethodArgumentNotValidException e) {
         final List<Violation> violations = e.getBindingResult().getFieldErrors().stream()
                 .map(error -> new Violation(error.getField(), error.getDefaultMessage()))
-                .collect(Collectors.toList());
+                .toList();
         return new ValidationErrorResponse(violations);
     }
 

@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +45,7 @@ public class CarServiceImpl implements CarService {
         return carRepository.findAll()
                 .stream()
                 .map(this::setOwnerDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -54,7 +53,7 @@ public class CarServiceImpl implements CarService {
         return carRepository.selectAvailableCars()
                 .stream()
                 .map(this::setOwnerDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
