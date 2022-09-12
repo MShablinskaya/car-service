@@ -1,7 +1,8 @@
 package com.innowise.sharing.controller;
 
 import com.innowise.sharing.dto.OrderDto;
-import com.innowise.sharing.valid.group.OnCreateGroup;
+import com.innowise.sharing.enums.Action;
+import com.innowise.sharing.validation.group.OnCreateGroup;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -54,5 +55,5 @@ public interface OrderRest {
             @ApiResponse(responseCode = "403", description = "Access denied. Not enough rights")
     })
     void updateStateCarOrder(@PathVariable(name = "id") Long id,
-                             @RequestBody String action);
+                             @RequestBody Action action);
 }

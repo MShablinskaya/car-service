@@ -19,4 +19,6 @@ public interface CarService {
     void addNewCarToList(CarDto dto);
 
     void deleteCar(Long carId);
+
+    boolean isAvailable(Long carId);
 }

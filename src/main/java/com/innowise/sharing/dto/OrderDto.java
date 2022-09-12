@@ -1,6 +1,7 @@
 package com.innowise.sharing.dto;
 
-import com.innowise.sharing.valid.group.OnCreateGroup;
+import com.innowise.sharing.enums.Action;
+import com.innowise.sharing.validation.group.OnCreateGroup;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.Valid;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 @Data
@@ -30,10 +31,10 @@ public class OrderDto {
     private String state;
 
     @FutureOrPresent(message = "You cannot reserve a car retroactively.")
-    private Timestamp bookingDate;
+    private Instant bookingDate;
 
     @FutureOrPresent(message = "You cannot return a car retroactively.")
-    private Timestamp returnDate;
+    private Instant returnDate;
 
-    private List<String> actions;
+    private List<Action> actions;
 }
