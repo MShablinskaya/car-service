@@ -1,4 +1,4 @@
-package com.innowise.sharing.kafka.config;
+package com.innowise.sharing.config;
 
 import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;

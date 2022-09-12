@@ -1,4 +1,4 @@
-package com.innowise.sharing.kafka.config;
+package com.innowise.sharing.config;
 
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
