@@ -8,6 +8,8 @@ import com.innowise.sharing.entity.Order;
 import com.innowise.sharing.entity.User;
 import com.innowise.sharing.enums.Action;
 import com.innowise.sharing.enums.State;
+import com.innowise.sharing.exception.CarIsNotAvailableException;
+import com.innowise.sharing.exception.OrderEntityNotFoundException;
 import com.innowise.sharing.mapper.OrderMapper;
 import com.innowise.sharing.repository.OrderRepository;
 import com.innowise.sharing.service.CarService;
@@ -15,13 +17,12 @@ import com.innowise.sharing.service.OrderService;
 import com.innowise.sharing.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,38 +34,41 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
+    @Transactional
     public void createNewCarOrder(OrderDto orderDto) {
-        Timestamp currentDate = Timestamp.from(Instant.now());
+        Instant currentDate = Instant.now();
         Long carId = orderDto.getCar().getId();
-        CarDto carDto = carService.findCarDtoById(carId);
-        if (Boolean.TRUE.equals(carDto.getAvailability())) {
+        if (carService.isAvailable(carId)) {
             Order order = saveOrder(orderDto);
             order.setBookingDate(currentDate);
             order.setState(State.RESERVED);
             orderRepository.save(order);
+        } else {
+            throw new CarIsNotAvailableException(carId);
         }
     }
 
     @Override
-    public void updateStateOfCarOrder(Long orderId, String action) {
-        Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
-        String incomingState = Action.valueOf(action.toUpperCase()).getIncomingState();
-        String currentState = order.getState().toString();
+    @Transactional
+    public void updateStateOfCarOrder(Long orderId, Action action) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderEntityNotFoundException(orderId));
+        State incomingState = State.valueOf(action.getIncomingState());
+        State currentState = order.getState();
         Long carId = order.getCar().getId();
-        List<String> availableActions = availableActions(orderId);
-        if (!currentState.equals(incomingState) && availableActions.contains(action.toUpperCase())) {
-            State state = State.valueOf(incomingState);
-            order.setState(state);
+        List<Action> availableActions = availableActions(orderId);
+        if (!currentState.equals(incomingState) && availableActions.contains(action)) {
+            order.setState(incomingState);
             revertCarIfOrderDone(carId, orderId);
             orderRepository.save(order);
         }
     }
 
     @Override
-    public OrderDto getOrderById(Long id) {
-        return orderRepository.findById(id)
+    public OrderDto getOrderById(Long orderId) {
+        return orderRepository.findById(orderId)
                 .map(this::setCarAndCustomer)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new OrderEntityNotFoundException(orderId));
     }
 
     @Override
@@ -72,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.selectMyOrders(email)
                 .stream()
                 .map(this::setCarAndCustomer)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private OrderDto setCarAndCustomer(Order order) {
@@ -81,7 +85,7 @@ public class OrderServiceImpl implements OrderService {
         CarDto carDto = carService.findCarDtoById(carId);
         UserDto userDto = userService.getUserDtoByEmail(email);
         OrderDto dto = orderMapper.orderToOrderDto(order);
-        List<String> actions = availableActions(order.getId());
+        List<Action> actions = availableActions(order.getId());
         dto.setCustomer(userDto);
         dto.setCar(carDto);
         dto.setActions(actions);
@@ -102,16 +106,20 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.save(order);
     }
 
-    private List<String> availableActions(Long id) {
-        OrderDto orderDto = orderRepository.findById(id)
-                .map(orderMapper::orderToOrderDto)
+    private List<Action> availableActions(Long id) {
+        Order order = orderRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
-        List<String> actions = new ArrayList<>();
-        if (orderDto.getState().equals(State.RESERVED.toString())) {
-            actions.add(Action.CANCEL.toString());
-            actions.add(Action.CONFIRM.toString());
-        } else if (orderDto.getState().equals(State.IN_USE.toString())) {
-            actions.add(Action.RETURN.toString());
+        List<Action> actions = new ArrayList<>();
+        State currentState = order.getState();
+        switch (currentState) {
+            case RESERVED -> {
+                actions.add(Action.CONFIRM);
+                actions.add(Action.CANCEL);
+            }
+            case IN_USE -> actions.add(Action.RETURN);
+            default -> {
+                return actions;
+            }
         }
 
         return actions;
@@ -120,7 +128,7 @@ public class OrderServiceImpl implements OrderService {
     private void revertCarIfOrderDone(Long carId, Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
         String state = order.getState().toString();
-        Timestamp currentDate = Timestamp.from(Instant.now());
+        Instant currentDate = Instant.now();
         if (state.equals(State.RETURNED.toString()) || state.equals(State.CANCELLED.toString())) {
             carService.changeAvailabilityStatus(carId);
             order.setReturnDate(currentDate);

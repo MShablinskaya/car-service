@@ -2,6 +2,7 @@ package com.innowise.sharing.controller.impl;
 
 import com.innowise.sharing.controller.OrderRest;
 import com.innowise.sharing.dto.OrderDto;
+import com.innowise.sharing.enums.Action;
 import com.innowise.sharing.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class OrderRestImpl implements OrderRest {
     }
 
     @Override
-    public void updateStateCarOrder(Long id, String action) {
+    public void updateStateCarOrder(Long id, Action action) {
         orderService.updateStateOfCarOrder(id, action);
     }
 }

@@ -4,6 +4,7 @@ import com.innowise.sharing.dto.CarDto;
 import com.innowise.sharing.dto.UserDto;
 import com.innowise.sharing.entity.Car;
 import com.innowise.sharing.entity.User;
+import com.innowise.sharing.exception.CarEntityNotFoundException;
 import com.innowise.sharing.mapper.CarMapper;
 import com.innowise.sharing.repository.CarRepository;
 import com.innowise.sharing.service.CarService;
@@ -11,9 +12,7 @@ import com.innowise.sharing.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,13 +25,13 @@ public class CarServiceImpl implements CarService {
     public CarDto findCarDtoById(Long id) {
         return carRepository.findById(id)
                 .map(this::setOwnerDto)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new CarEntityNotFoundException(id));
     }
 
     @Override
     public Car getCarEntityById(Long id) {
         return carRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new CarEntityNotFoundException(id));
     }
 
     @Override
@@ -40,7 +39,7 @@ public class CarServiceImpl implements CarService {
         return carRepository.findAll()
                 .stream()
                 .map(this::setOwnerDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -48,13 +47,20 @@ public class CarServiceImpl implements CarService {
         return carRepository.selectAvailableCars()
                 .stream()
                 .map(this::setOwnerDto)
-                .collect(Collectors.toList());
+                .toList();
+    }
+
+    @Override
+    public boolean isAvailable(Long carId) {
+        return carRepository.findById(carId)
+                .orElseThrow(() -> new CarEntityNotFoundException(carId))
+                .isAvailability();
     }
 
     @Override
     public void changeAvailabilityStatus(Long carId) {
-        Car car = carRepository.findById(carId).orElseThrow(EntityNotFoundException::new);
-        car.setAvailability(!car.getAvailability());
+        Car car = carRepository.findById(carId).orElseThrow(() -> new CarEntityNotFoundException(carId));
+        car.setAvailability(!car.isAvailability());
         carRepository.save(car);
     }
 
@@ -69,7 +75,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void deleteCar(Long carId) {
-        Car car = carRepository.findById(carId).orElseThrow(EntityNotFoundException::new);
+        Car car = carRepository.findById(carId).orElseThrow(() -> new CarEntityNotFoundException(carId));
         carRepository.delete(car);
     }
 
@@ -81,4 +87,5 @@ public class CarServiceImpl implements CarService {
 
         return carDto;
     }
+
 }

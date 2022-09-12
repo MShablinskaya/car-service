@@ -1,4 +1,4 @@
-package com.innowise.sharing.valid;
+package com.innowise.sharing.validation;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
