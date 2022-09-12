@@ -4,7 +4,6 @@ import com.innowise.sharing.entity.Car;
 import com.innowise.sharing.kafka.mapper.RecordMapper;
 import com.innowise.sharing.kafka.producer.MessageProducer;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericRecord;
@@ -17,6 +16,8 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
 @Slf4j
@@ -29,11 +30,17 @@ public class CarMessageProducerImpl implements MessageProducer<Car> {
     @Value(value = "${spring.kafka.topic.name.car}")
     private String topicName;
 
-    @SneakyThrows
     @Override
     public void send(Car car) {
-        final File schemaFile = Paths.get(ClassLoader.getSystemResource(SCHEMA_FILE_PATH).toURI()).toFile();
-        final Schema schema = new Schema.Parser().parse(schemaFile);
+        final File schemaFile;
+        final Schema schema;
+        try {
+            schemaFile = Paths.get(ClassLoader.getSystemResource(SCHEMA_FILE_PATH).toURI()).toFile();
+            schema = new Schema.Parser().parse(schemaFile);
+        } catch (URISyntaxException | IOException exception) {
+            log.error("Error has occurred with extracting car avro schema: {}", exception.getMessage());
+            return;
+        }
         GenericRecord carRecord = carRecordMapper.mapToRecord(car, schema);
         ProducerRecord<String, GenericRecord> producerRecord = new ProducerRecord<>(topicName, carRecord);
         ListenableFuture<SendResult<String, GenericRecord>> future = kafkaTemplate.send(producerRecord);
