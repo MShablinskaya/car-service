@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @Builder
@@ -33,4 +34,6 @@ public class OrderDto {
 
     @FutureOrPresent(message = "You cannot return a car retroactively.")
     private Timestamp returnDate;
+
+    private List<String> actions;
 }
