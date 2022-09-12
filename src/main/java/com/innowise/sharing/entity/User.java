@@ -26,9 +26,9 @@ import javax.validation.constraints.Pattern;
 @Accessors(chain = true)
 @Table(name = "users")
 public class User {
-    @Column(name = "id", nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
     @Column(name = "first_name")
@@ -38,7 +38,7 @@ public class User {
     private String lastName;
 
     @Column(name = "email")
-    @Pattern(regexp = ".+@.+\\.[a-z]", message = "Invalid Email address!")
+    @Pattern(regexp = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", message = "Invalid Email address!")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String email;
 
@@ -50,7 +50,7 @@ public class User {
     @JoinColumn(name = "license_id")
     @OneToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
-    private Document licenceId;
+    private Document licence;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)

@@ -68,3 +68,14 @@ services:
       KAFKA_REST_BOOTSTRAP_SERVERS: kafka:29092
       KAFKA_REST_LISTENERS: http://0.0.0.0:8082
       KAFKA_REST_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+  sonar:
+    image: orangesignal/sonar:latest
+    container_name: sonar-autosharing
+    links:
+      - postgres
+    ports:
+      - 9000:9000
+    environment:
+      - SONAR_JDBC_URL=jdbc:postgresql://pgsql-01:5432/sonar
+      - SONAR_JDBC_USERNAME=sonar
+      - SONAR_JDBC_PASSWORD=sonar

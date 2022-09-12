@@ -1,9 +1,7 @@
 package com.innowise.sharing.entity;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
@@ -15,9 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import java.sql.Timestamp;
-import java.util.Objects;
 
 @Entity
 @Data
@@ -26,9 +23,16 @@ import java.util.Objects;
 @Table(name = "cars")
 public class Car {
 
-    @Column(name = "id", nullable = false)
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "seq_post"
+    )
+    @SequenceGenerator(
+            name = "seq_post",
+            allocationSize = 1
+    )
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
     @Column(name = "brand")
@@ -41,15 +45,15 @@ public class Car {
     private String color;
 
     @Column(name = "release_year")
-    private Timestamp releaseYear;
+    private Integer releaseYear;
 
     @Column(name = "registration_number")
     private String registrationNumber;
 
-    @JoinColumn(name = "owner_id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id")
     @ToString.Exclude
-    private User ownerId;
+    private User owner;
 
     @Column(name = "availability")
     private Boolean availability;
