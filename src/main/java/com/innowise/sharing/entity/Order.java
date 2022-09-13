@@ -17,7 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
 @Data
@@ -45,8 +45,8 @@ public class Order {
     private State state;
 
     @Column(name = "booking_date")
-    private Timestamp bookingDate;
+    private Instant bookingDate;
 
     @Column(name = "return_date")
-    private Timestamp returnDate;
+    private Instant returnDate;
 }

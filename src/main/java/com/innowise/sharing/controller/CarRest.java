@@ -1,7 +1,7 @@
 package com.innowise.sharing.controller;
 
 import com.innowise.sharing.dto.CarDto;
-import com.innowise.sharing.valid.group.OnCreateGroup;
+import com.innowise.sharing.validation.group.OnCreateGroup;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

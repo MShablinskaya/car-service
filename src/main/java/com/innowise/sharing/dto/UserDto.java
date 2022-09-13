@@ -1,6 +1,6 @@
 package com.innowise.sharing.dto;
 
-import com.innowise.sharing.valid.group.OnCreateGroup;
+import com.innowise.sharing.validation.group.OnCreateGroup;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

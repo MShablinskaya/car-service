@@ -1,5 +1,6 @@
-package com.innowise.sharing.valid;
+package com.innowise.sharing.validation;
 
+import com.innowise.sharing.exception.CarIsNotAvailableException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ErrorHandlingControllerAdvice {
@@ -24,7 +24,7 @@ public class ErrorHandlingControllerAdvice {
                 .map(violation -> new Violation(
                         violation.getPropertyPath().toString(),
                         violation.getMessage())
-                ).collect(Collectors.toList());
+                ).toList();
         return new ValidationErrorResponse(violations);
     }
 
@@ -35,14 +35,20 @@ public class ErrorHandlingControllerAdvice {
             MethodArgumentNotValidException e) {
         final List<Violation> violations = e.getBindingResult().getFieldErrors().stream()
                 .map(error -> new Violation(error.getField(), error.getDefaultMessage()))
-                .collect(Collectors.toList());
+                .toList();
         return new ValidationErrorResponse(violations);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorMessage handleEntityNotFoundException() {
-        return new ErrorMessage("Entity not found");
+    public ErrorMessage handleEntityNotFoundException(EntityNotFoundException exception) {
+        return new ErrorMessage(exception.getMessage());
+    }
+
+    @ExceptionHandler(CarIsNotAvailableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleEntityNotFoundException(CarIsNotAvailableException exception) {
+        return new ErrorMessage(exception.getMessage());
     }
 
     @ExceptionHandler(NumberFormatException.class)

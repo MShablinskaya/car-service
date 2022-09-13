@@ -56,5 +56,5 @@ public class Car {
     private User owner;
 
     @Column(name = "availability")
-    private Boolean availability;
+    private boolean availability;
 }
