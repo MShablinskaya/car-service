@@ -11,7 +11,7 @@ public class DocumentTestUtil {
     public static final Long ID = 1L;
     public static final String NUMBER = "GIBDD 7725";
     public static final DocumentType TYPE = DocumentType.DRIVER_LICENSE;
-    public static final Timestamp EXPIRATION_DATE = Timestamp.from(Instant.now());
+    public static final Instant EXPIRATION_DATE = Instant.parse("2022-09-12T16:05:25.356401995Z");
 
     public static DocumentDto createDocumentDto() {
         return DocumentDto.builder()

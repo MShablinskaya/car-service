@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Pattern;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 @Data
 @Builder
@@ -19,5 +19,5 @@ public class DocumentDto {
     private String licenseNumber;
 
     @Future(message = "The expiration date cannot be older than now")
-    private Timestamp expirationDate;
+    private Instant expirationDate;
 }

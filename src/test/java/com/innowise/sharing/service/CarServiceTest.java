@@ -140,6 +140,7 @@ class CarServiceTest {
 
         carService.deleteCar(CarTestUtil.ID);
 
+        assert expectedCar != null;
         verify(carRepository).delete(expectedCar);
     }
 }
