@@ -2,6 +2,7 @@ package com.innowise.sharing.service;
 
 import com.innowise.sharing.dto.DocumentDto;
 import com.innowise.sharing.entity.Document;
+import com.innowise.sharing.exception.DocumentEntityNotFoundException;
 import com.innowise.sharing.mapper.DocumentMapper;
 import com.innowise.sharing.repository.DocumentRepository;
 import com.innowise.sharing.service.impl.DocumentServiceImpl;
@@ -12,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -52,6 +52,7 @@ class DocumentServiceTest {
                 .thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> documentService.getBySerialNumber(DocumentTestUtil.NUMBER))
-                .isInstanceOf(EntityNotFoundException.class);
+                .isInstanceOf(DocumentEntityNotFoundException.class)
+                .hasMessage(String.format("Document with registration number %s not Found", DocumentTestUtil.NUMBER));
     }
 }

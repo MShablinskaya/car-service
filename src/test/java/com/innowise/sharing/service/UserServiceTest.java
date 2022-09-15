@@ -3,6 +3,7 @@ package com.innowise.sharing.service;
 import com.innowise.sharing.dto.DocumentDto;
 import com.innowise.sharing.dto.UserDto;
 import com.innowise.sharing.entity.User;
+import com.innowise.sharing.exception.UserEntityNotFoundException;
 import com.innowise.sharing.mapper.UserMapper;
 import com.innowise.sharing.repository.UserRepository;
 import com.innowise.sharing.service.impl.UserServiceImpl;
@@ -78,6 +79,7 @@ class UserServiceTest {
         when(userRepository.findUserByEmail(UserTestUtil.EMAIL)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> userService.getUserByEmail(UserTestUtil.EMAIL))
-                .isInstanceOf(EntityNotFoundException.class);
+                .isInstanceOf(UserEntityNotFoundException.class)
+                .hasMessage(String.format("User entity with email:%s not found!", UserTestUtil.EMAIL));
     }
 }

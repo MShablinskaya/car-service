@@ -21,10 +21,10 @@ public class OrderTestUtil {
     public static final Car CAR = CarTestUtil.createCar();
     public static final CarDto CAR_DTO = CarTestUtil.createCarDto();
     public static final State STATE = State.RESERVED;
-    public static final Timestamp BOOKING_DATE = Timestamp.from(Instant.now());
-    public static final Timestamp RETURN_DATE = Timestamp.from(Instant.now());
-    public static final String ACTION = "CONFIRM";
-    public static final List<String> actionsList = new ArrayList<>();
+    public static final Instant BOOKING_DATE = Instant.parse("2022-09-12T16:05:25.356401995Z");;
+    public static final Instant RETURN_DATE = Instant.parse("2022-09-12T16:05:25.356401995Z");;
+    public static final Action ACTION = Action.CONFIRM;
+    public static final List<Action> actionsList = new ArrayList<>();
 
 
     public static Order createOrder() {

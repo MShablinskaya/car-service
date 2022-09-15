@@ -16,9 +16,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.Table;
 import java.time.Instant;
 
+@NamedEntityGraph(
+        name = "order-entity-graph",
+        attributeNodes = {
+                @NamedAttributeNode("customer"),
+                @NamedAttributeNode("car"),
+        }
+)
 @Entity
 @Data
 @RequiredArgsConstructor

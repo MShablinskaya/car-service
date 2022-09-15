@@ -5,6 +5,8 @@ import com.innowise.sharing.dto.OrderDto;
 import com.innowise.sharing.dto.UserDto;
 import com.innowise.sharing.entity.Order;
 import com.innowise.sharing.entity.User;
+import com.innowise.sharing.exception.CarIsNotAvailableException;
+import com.innowise.sharing.exception.OrderEntityNotFoundException;
 import com.innowise.sharing.mapper.OrderMapper;
 import com.innowise.sharing.repository.OrderRepository;
 import com.innowise.sharing.service.impl.OrderServiceImpl;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -48,10 +51,9 @@ class OrderServiceTest {
     void createNewCarOrder_When_Successful() {
         OrderDto orderForSaving = OrderTestUtil.createOrderDto();
         Order expectedOrder = OrderTestUtil.createOrder();
-        CarDto carDto = CarTestUtil.createCarDto();
         User customer = UserTestUtil.createUser();
 
-        when(carService.findCarDtoById(CarTestUtil.ID)).thenReturn(carDto);
+        when(carService.isAvailable(CarTestUtil.ID)).thenReturn(true);
         when(userService.getUserByEmail(UserTestUtil.EMAIL)).thenReturn(customer);
         when(orderMapper.orderDtoToOrder(orderForSaving)).thenReturn(expectedOrder);
         when(orderRepository.save(expectedOrder)).thenReturn(expectedOrder);
@@ -65,10 +67,8 @@ class OrderServiceTest {
     @Test
     void updateStateOfCarOrder_When_Successful() {
         Order expectedOrder = OrderTestUtil.createOrder();
-        OrderDto orderDto = OrderTestUtil.createOrderDto();
 
         when(orderRepository.findById(OrderTestUtil.ID)).thenReturn(Optional.ofNullable(expectedOrder));
-        when(orderMapper.orderToOrderDto(expectedOrder)).thenReturn(orderDto);
         assert expectedOrder != null;
         when(orderRepository.save(expectedOrder)).thenReturn(expectedOrder);
 
@@ -121,14 +121,21 @@ class OrderServiceTest {
     void createNewCarOrder_When_Failed_Because_Car_Is_Not_Available() {
         Order expectedOrder = OrderTestUtil.createOrder();
         OrderDto expectedDto = OrderTestUtil.createOrderDto();
-        CarDto carDto = CarTestUtil.createCarDto();
-        carDto.setAvailability(false);
 
-        when(carService.findCarDtoById(CarTestUtil.ID)).thenReturn(carDto);
+        when(carService.isAvailable(CarTestUtil.ID)).thenReturn(false);
 
-        orderService.createNewCarOrder(expectedDto);
+        assertThatThrownBy(() -> orderService.createNewCarOrder(expectedDto))
+                .isInstanceOf(CarIsNotAvailableException.class)
+                .hasMessage(String.format("Car with ID:%s is not available right now.", CarTestUtil.ID));
 
-        verify(orderRepository, times(0)).save(expectedOrder);
+    }
 
+    @Test
+    void getOrderById_When_Entity_Not_Found() {
+        when(orderRepository.findById(OrderTestUtil.ID)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> orderService.getOrderById(OrderTestUtil.ID))
+                .isInstanceOf(OrderEntityNotFoundException.class)
+                .hasMessage(String.format("Order with ID: %s is not found", OrderTestUtil.ID));
     }
 }

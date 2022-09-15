@@ -4,6 +4,7 @@ import com.innowise.sharing.dto.CarDto;
 import com.innowise.sharing.dto.UserDto;
 import com.innowise.sharing.entity.Car;
 import com.innowise.sharing.entity.User;
+import com.innowise.sharing.exception.CarEntityNotFoundException;
 import com.innowise.sharing.mapper.CarMapper;
 import com.innowise.sharing.repository.CarRepository;
 import com.innowise.sharing.service.impl.CarServiceImpl;
@@ -15,11 +16,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -118,6 +121,19 @@ class CarServiceTest {
     }
 
     @Test
+    void isAvailable_When_True() {
+        Car expectedCar = CarTestUtil.createCar();
+
+        when(carRepository.findById(CarTestUtil.ID)).thenReturn(Optional.ofNullable(expectedCar));
+
+        boolean isAvailable = carService.isAvailable(CarTestUtil.ID);
+
+        assert expectedCar != null;
+        assertThat(isAvailable).isTrue();
+
+    }
+
+    @Test
     void addNewCarToList() {
         Car expectedCar = CarTestUtil.createCar();
         CarDto expectedCarDtoForSaving = CarTestUtil.createCarDto();
@@ -142,5 +158,14 @@ class CarServiceTest {
 
         assert expectedCar != null;
         verify(carRepository).delete(expectedCar);
+    }
+
+    @Test
+    void findCarDtoById_When_Entity_Not_Found() {
+        when(carRepository.findById(CarTestUtil.ID)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> carService.findCarDtoById(CarTestUtil.ID))
+                .isInstanceOf(CarEntityNotFoundException.class)
+                .hasMessage(String.format("Car entity with id:%s not found.", CarTestUtil.ID));
     }
 }

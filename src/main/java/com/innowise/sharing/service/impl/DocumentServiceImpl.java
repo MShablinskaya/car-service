@@ -18,6 +18,6 @@ public class DocumentServiceImpl implements DocumentService {
     public DocumentDto getBySerialNumber(String serialNumber) {
         return documentRepository.findDocumentByLicenseNumber(serialNumber)
                 .map(mapper::documentToDocumentDto)
-                .orElseThrow(DocumentEntityNotFoundException::new);
+                .orElseThrow(() -> new DocumentEntityNotFoundException(serialNumber));
     }
 }
