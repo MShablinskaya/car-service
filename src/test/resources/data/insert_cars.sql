@@ -1,0 +1,1 @@
+INSERT INTO cars (brand, model, color, release_year, registration_number, owner_id, availability)VALUES('Mercedes', 'AMG GT', 'silver', '2015', '6446 II-1', 1, true);

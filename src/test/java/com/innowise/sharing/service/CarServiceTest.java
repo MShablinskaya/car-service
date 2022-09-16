@@ -8,15 +8,14 @@ import com.innowise.sharing.exception.CarEntityNotFoundException;
 import com.innowise.sharing.mapper.CarMapper;
 import com.innowise.sharing.repository.CarRepository;
 import com.innowise.sharing.service.impl.CarServiceImpl;
-import com.innowise.sharing.service.util.CarTestUtil;
-import com.innowise.sharing.service.util.UserTestUtil;
+import com.innowise.sharing.util.CarTestUtil;
+import com.innowise.sharing.util.UserTestUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

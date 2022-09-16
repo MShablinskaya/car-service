@@ -1,0 +1,1 @@
+INSERT INTO documents (license_number, type, expiration_date )VALUES('GIBDD 7725', 'DRIVER_LICENSE', '2022-09-12T16:05:25.356401995Z');

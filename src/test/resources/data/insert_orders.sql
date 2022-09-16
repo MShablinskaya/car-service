@@ -1,0 +1,1 @@
+INSERT INTO orders (id, customer_id, car_id, state, booking_date, return_date)VALUES(1, 1, 1, 'RESERVED', '2022-09-12T16:05:25.356401995Z', '2022-09-12T16:05:25.356401995Z');

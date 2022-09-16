@@ -1,0 +1,1 @@
+INSERT INTO users (first_name, last_name, email, password, license_id, role)VALUES ('John', 'Doe', 'john_doe@yopmail.com', 'qwerty123', 1, 'OWNER');

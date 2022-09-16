@@ -6,7 +6,7 @@ import com.innowise.sharing.exception.DocumentEntityNotFoundException;
 import com.innowise.sharing.mapper.DocumentMapper;
 import com.innowise.sharing.repository.DocumentRepository;
 import com.innowise.sharing.service.impl.DocumentServiceImpl;
-import com.innowise.sharing.service.util.DocumentTestUtil;
+import com.innowise.sharing.util.DocumentTestUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
