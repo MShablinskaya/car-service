@@ -62,7 +62,6 @@ test {
 jacocoTestReport {
     dependsOn test
     reports {
-        xml.enabled(true)
         xml.required = false
         csv.required = false
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
@@ -70,7 +69,6 @@ jacocoTestReport {
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
-                    "innowise/zuevsky/helpdesk/dto/*Dto.*",
                     "**/domain/*",
                     "**/response/*",
                     "**/config/*",
@@ -84,6 +82,6 @@ sonarqube {
     properties {
         property "sonar.projectKey", "car-service"
         property 'sonar.java.coveragePlugin', 'jacoco'
-        property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
+        property 'sonar.coverage.jacoco.xmlReportPaths', 'build/jacoco/test.exec'
     }
 }
