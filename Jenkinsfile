@@ -9,14 +9,11 @@ pipeline {
         stage('SCM') {
             checkout scm
           }
-          stage('SonarQube Analysis') {
-            withSonarQubeEnv() {
-              sh "./gradlew sonarqube"
-            }
-          }
-        stage('Deploy') {
+        stage('SonarQube Analysis') {
             steps {
-                echo 'Deploying coming soon..'
+                withSonarQubeEnv() {
+                              sh "./gradlew sonarqube"
+                            }
             }
         }
     }
