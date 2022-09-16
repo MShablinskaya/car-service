@@ -1,0 +1,79 @@
+{
+  "type": "record",
+  "name": "Car",
+  "namespace": "com.innowise.sharing.avro",
+  "fields": [
+    {
+      "name": "id",
+      "type": "long"
+    },
+    {
+      "name": "brand",
+      "type": "string"
+    },
+    {
+      "name": "model",
+      "type": "string"
+    },
+    {
+      "name": "color",
+      "type": "string"
+    },
+    {
+      "name": "release_year",
+      "type": "int"
+    },
+    {
+      "name": "registration_number",
+      "type": "string"
+    },
+    {
+      "name": "user",
+      "type": {
+        "type": "record",
+        "name": "Owner",
+        "namespace": "com.innowise.sharing.avro",
+        "fields": [
+          {
+            "name": "first_name",
+            "type": "string"
+          },
+          {
+            "name": "last_name",
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "type": "string"
+          },
+          {
+            "name": "document",
+            "type": {
+              "type": "record",
+              "name": "Passport",
+              "namespace": "com.innowise.sharing.avro",
+              "fields": [
+                {
+                  "name": "license_number",
+                  "type": "string"
+                },
+                {
+                  "name": "expiration_date",
+                  "type": "string"
+                },
+                {
+                  "name": "document_type",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "availability",
+      "type": "boolean"
+    }
+  ]
+}

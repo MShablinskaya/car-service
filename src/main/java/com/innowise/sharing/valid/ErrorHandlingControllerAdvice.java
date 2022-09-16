@@ -23,8 +23,8 @@ public class ErrorHandlingControllerAdvice {
         final List<Violation> violations = e.getConstraintViolations().stream()
                 .map(violation -> new Violation(
                         violation.getPropertyPath().toString(),
-                        violation.getMessage())
-                ).collect(Collectors.toList());
+                        violation.getMessage()))
+                .collect(Collectors.toList());
         return new ValidationErrorResponse(violations);
     }
 

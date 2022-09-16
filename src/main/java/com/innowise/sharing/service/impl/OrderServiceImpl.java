@@ -8,12 +8,15 @@ import com.innowise.sharing.entity.Order;
 import com.innowise.sharing.entity.User;
 import com.innowise.sharing.enums.Action;
 import com.innowise.sharing.enums.State;
+import com.innowise.sharing.kafka.producer.MessageProducer;
 import com.innowise.sharing.mapper.OrderMapper;
 import com.innowise.sharing.repository.OrderRepository;
 import com.innowise.sharing.service.CarService;
 import com.innowise.sharing.service.OrderService;
 import com.innowise.sharing.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -21,7 +24,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +32,9 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final UserService userService;
     private final CarService carService;
+    @Autowired
+    @Qualifier("orderMessageProducer")
+    private MessageProducer<Order> messageProducer;
 
 
     @Override
@@ -42,6 +47,8 @@ public class OrderServiceImpl implements OrderService {
             order.setBookingDate(currentDate);
             order.setState(State.RESERVED);
             orderRepository.save(order);
+
+            messageProducer.send(order);
         }
     }
 
@@ -72,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.selectMyOrders(email)
                 .stream()
                 .map(this::setCarAndCustomer)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private OrderDto setCarAndCustomer(Order order) {
