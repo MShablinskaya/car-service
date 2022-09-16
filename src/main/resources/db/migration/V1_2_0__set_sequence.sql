@@ -1,0 +1,2 @@
+CREATE SEQUENCE seq_post START 1 INCREMENT 1;
+SELECT setval('seq_post', (SELECT MAX(ID) FROM cars));
