@@ -78,6 +78,6 @@ jacocoTestReport {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "auto-sharing"
+        property "sonar.projectKey", "car-service"
     }
 }
