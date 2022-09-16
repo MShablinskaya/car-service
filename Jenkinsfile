@@ -17,4 +17,3 @@ pipeline {
     jdk 'JDK_17_new'
   }
 }
-}
